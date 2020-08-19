@@ -6,7 +6,6 @@ import (
 	"encoding/base64"
 	"encoding/xml"
 	"fmt"
-	"log"
 	"net/url"
 	"sort"
 	"strings"
@@ -70,12 +69,10 @@ func (seller *AmazonSeller) GetAllReportIds(startTime time.Time, endTime time.Ti
 			break
 		}
 
-		log.Println("Oh yeah, has next")
 		nextToken = result.NextToken
 	}
 
 	uids := funk.UniqString(ids)
-	log.Printf("All ids' length is %d, and uniq ids' length is %d", len(ids), len(uids))
 
 	return uids
 }
