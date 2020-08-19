@@ -9,6 +9,7 @@ import (
 	"sort"
 	"strings"
 
+	resty "github.com/go-resty/resty/v2"
 	"github.com/pkg4go/tools"
 )
 
@@ -67,8 +68,8 @@ var Endpoint = map[string]string{
 	"JP": "https://mws.amazonservices.jp",
 }
 
-// AmazonSeller the amazon seller info
-type AmazonSeller struct {
+// Seller The seller info
+type Seller struct {
 	SellerID  string
 	AuthToken string
 	Endpoint  string
@@ -77,7 +78,7 @@ type AmazonSeller struct {
 }
 
 // AddSignature add signature
-func (seller *AmazonSeller) AddSignature(urlencode string) string {
+func (seller *Seller) AddSignature(urlencode string) string {
 	escapedParams := strings.Replace(urlencode, ",", "%2C", -1)
 	escapedParams = strings.Replace(escapedParams, ":", "%3A", -1)
 
@@ -97,4 +98,18 @@ func (seller *AmazonSeller) AddSignature(urlencode string) string {
 	hash = url.QueryEscape(hash)
 
 	return sortedParams + "&Signature=" + hash
+}
+
+// Request ...
+func (seller *Seller) Request(path string, params string) ([]byte, error) {
+	h := resty.New()
+	res, err := h.R().
+		SetHeader("Content-Type", "x-www-form-urlencoded").
+		Get(seller.Endpoint + path + "?" + params)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return res.Body(), nil
 }

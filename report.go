@@ -5,17 +5,16 @@ import (
 	"net/url"
 	"time"
 
-	resty "github.com/go-resty/resty/v2"
 	"github.com/pkg4go/tools"
 	"github.com/thoas/go-funk"
 )
 
-// GetReportList Get amazon seller report list by report type
-func (seller *AmazonSeller) GetReportList(startTime time.Time, endTime time.Time, nextToken string) *GetReportListResult {
-	params, err := seller.GenAmazonGetReportListParams(ReportTypeSettlement, startTime, endTime, nextToken)
+// GetReportList Get seller report list by report type
+func (seller *Seller) GetReportList(startTime time.Time, endTime time.Time, nextToken string) *GetReportListResult {
+	params, err := seller.GenGetReportListParams(ReportTypeSettlement, startTime, endTime, nextToken)
 	tools.AssertError(err)
 
-	raw, err := seller.RequestAmazonReport(params)
+	raw, err := seller.RequestReport(params)
 	tools.AssertError(err)
 
 	if nextToken == "" {
@@ -32,7 +31,7 @@ func (seller *AmazonSeller) GetReportList(startTime time.Time, endTime time.Time
 }
 
 // GetAllReportIds Get all report ids if has next
-func (seller *AmazonSeller) GetAllReportIds(startTime time.Time, endTime time.Time) []string {
+func (seller *Seller) GetAllReportIds(startTime time.Time, endTime time.Time) []string {
 	nextToken := ""
 	var ids []string
 
@@ -54,20 +53,20 @@ func (seller *AmazonSeller) GetAllReportIds(startTime time.Time, endTime time.Ti
 	return uids
 }
 
-// GetReportByID Get amazon seller report by report id
-func (seller *AmazonSeller) GetReportByID(reportID string) []SettlementReportRow {
-	params, err := seller.GenAmazonGetReportParams(reportID)
+// GetReportByID Get seller report by report id
+func (seller *Seller) GetReportByID(reportID string) []SettlementReportRow {
+	params, err := seller.GenGetReportParams(reportID)
 	tools.AssertError(err)
 
-	raw, err := seller.RequestAmazonReport(params)
+	raw, err := seller.RequestReport(params)
 	tools.AssertError(err)
 	text := string(raw)
 
 	return parseCSVReport(text)
 }
 
-// GenAmazonGetReportListParams gen amazon get report list params
-func (seller *AmazonSeller) GenAmazonGetReportListParams(reportType string, startTime time.Time, endTime time.Time, nextToken string) (string, error) {
+// GenGetReportListParams gen get report list params
+func (seller *Seller) GenGetReportListParams(reportType string, startTime time.Time, endTime time.Time, nextToken string) (string, error) {
 	v := url.Values{}
 
 	if nextToken != "" {
@@ -81,47 +80,40 @@ func (seller *AmazonSeller) GenAmazonGetReportListParams(reportType string, star
 	v.Add("MWSAuthToken", seller.AuthToken)
 	v.Add("AWSAccessKeyId", seller.AccessKey)
 	v.Add("ReportTypeList.Type.1", reportType)
-	v.Add("SignatureVersion", "2")
-	v.Add("SignatureMethod", "HmacSHA256")
-	v.Add("Version", "2009-01-01")
+
 	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
 	v.Add("AvailableFromDate", startTime.Format(time.RFC3339))
 	v.Add("AvailableToDate", endTime.Format(time.RFC3339))
 	v.Add("MaxCount", "100")
+	v.Add("SignatureVersion", "2")
+	v.Add("SignatureMethod", "HmacSHA256")
+	v.Add("Version", "2009-01-01")
+
 	s := v.Encode()
 
 	return seller.AddSignature(s), nil
 }
 
-// GenAmazonGetReportParams gen amazon get report params
-func (seller *AmazonSeller) GenAmazonGetReportParams(reportID string) (string, error) {
+// GenGetReportParams gen get report params
+func (seller *Seller) GenGetReportParams(reportID string) (string, error) {
 	v := url.Values{}
 
+	v.Add("Action", "GetReport")
 	v.Add("SellerId", seller.SellerID)
 	v.Add("MWSAuthToken", seller.AuthToken)
 	v.Add("AWSAccessKeyId", seller.AccessKey)
-	v.Add("Action", "GetReport")
 	v.Add("ReportId", reportID)
+	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
 	v.Add("SignatureVersion", "2")
 	v.Add("SignatureMethod", "HmacSHA256")
 	v.Add("Version", "2009-01-01")
-	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
 
 	urlencode := v.Encode()
 
 	return seller.AddSignature(urlencode), nil
 }
 
-// RequestAmazonReport request amazon report
-func (seller *AmazonSeller) RequestAmazonReport(params string) ([]byte, error) {
-	h := resty.New()
-	res, err := h.R().
-		SetHeader("Content-Type", "x-www-form-urlencoded").
-		Get(seller.Endpoint + ReportsPath + "?" + params)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return res.Body(), nil
+// RequestReport request report
+func (seller *Seller) RequestReport(params string) ([]byte, error) {
+	return seller.Request(ReportsPath, params)
 }
