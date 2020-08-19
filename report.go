@@ -79,7 +79,7 @@ func (seller *AmazonSeller) GenAmazonGetReportListParams(reportType string, star
 
 	v.Add("SellerId", seller.SellerID)
 	v.Add("MWSAuthToken", seller.AuthToken)
-	v.Add("AWSAccessKeyId", seller.MwsAccessKey)
+	v.Add("AWSAccessKeyId", seller.AccessKey)
 	v.Add("ReportTypeList.Type.1", reportType)
 	v.Add("SignatureVersion", "2")
 	v.Add("SignatureMethod", "HmacSHA256")
@@ -99,7 +99,7 @@ func (seller *AmazonSeller) GenAmazonGetReportParams(reportID string) (string, e
 
 	v.Add("SellerId", seller.SellerID)
 	v.Add("MWSAuthToken", seller.AuthToken)
-	v.Add("AWSAccessKeyId", seller.MwsAccessKey)
+	v.Add("AWSAccessKeyId", seller.AccessKey)
 	v.Add("Action", "GetReport")
 	v.Add("ReportId", reportID)
 	v.Add("SignatureVersion", "2")
@@ -117,7 +117,7 @@ func (seller *AmazonSeller) RequestAmazonReport(params string) ([]byte, error) {
 	h := resty.New()
 	res, err := h.R().
 		SetHeader("Content-Type", "x-www-form-urlencoded").
-		Get(seller.MwsEndpoint + ReportsPath + "?" + params)
+		Get(seller.Endpoint + ReportsPath + "?" + params)
 
 	if err != nil {
 		return nil, err

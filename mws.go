@@ -21,12 +21,11 @@ const (
 
 // AmazonSeller the amazon seller info
 type AmazonSeller struct {
-	SellerID     string
-	AuthToken    string
-	MwsHost      string
-	MwsEndpoint  string
-	MwsAccessKey string
-	MwsSecretKey string
+	SellerID  string
+	AuthToken string
+	Endpoint  string
+	AccessKey string
+	SecretKey string
 }
 
 // AddSignature add signature
@@ -38,7 +37,8 @@ func (seller *AmazonSeller) AddSignature(urlencode string) string {
 	sort.Strings(params)
 	sortedParams := strings.Join(params, "&")
 
-	toSignString := fmt.Sprintf("GET\n%s\n%s\n%s", seller.MwsHost, ReportsPath, sortedParams)
+	host := endpointToHost(seller.MWSEndpoint)
+	toSignString := fmt.Sprintf("GET\n%s\n%s\n%s", host, ReportsPath, sortedParams)
 
 	hasher := hmac.New(sha256.New, []byte(seller.MwsSecretKey))
 	_, err := hasher.Write([]byte(toSignString))
