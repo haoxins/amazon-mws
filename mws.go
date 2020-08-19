@@ -73,13 +73,12 @@ type Seller struct {
 	Country   string
 	SellerID  string
 	AuthToken string
-	Endpoint  string
 	AccessKey string
 	SecretKey string
 }
 
 // AddSignature add signature
-func (seller *Seller) AddSignature(urlencode string) string {
+func (seller *Seller) AddSignature(path string, urlencode string) string {
 	escapedParams := strings.Replace(urlencode, ",", "%2C", -1)
 	escapedParams = strings.Replace(escapedParams, ":", "%3A", -1)
 

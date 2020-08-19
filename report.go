@@ -2,6 +2,7 @@ package mws
 
 import (
 	"encoding/xml"
+	"log"
 	"net/url"
 	"time"
 
@@ -20,13 +21,23 @@ func (seller *Seller) GetReportList(startTime time.Time, endTime time.Time, next
 	if nextToken == "" {
 		data := GetReportListResponse{}
 		err = xml.Unmarshal(raw, &data)
-		tools.AssertError(err)
+		if err != nil {
+			// TODO
+			log.Println(string(raw))
+			return nil
+		}
+
 		return &data.GetReportListResult
 	}
 
 	data := GetReportListByNextTokenResponse{}
 	err = xml.Unmarshal(raw, &data)
-	tools.AssertError(err)
+	if err != nil {
+		// TODO
+		log.Println(string(raw))
+		return nil
+	}
+
 	return &data.GetReportListResult
 }
 
@@ -91,7 +102,7 @@ func (seller *Seller) GenGetReportListParams(reportType string, startTime time.T
 
 	s := v.Encode()
 
-	return seller.AddSignature(s), nil
+	return seller.AddSignature(ReportsPath, s), nil
 }
 
 // GenGetReportParams gen get report params
@@ -108,9 +119,9 @@ func (seller *Seller) GenGetReportParams(reportID string) (string, error) {
 	v.Add("SignatureMethod", "HmacSHA256")
 	v.Add("Version", "2009-01-01")
 
-	urlencode := v.Encode()
+	s := v.Encode()
 
-	return seller.AddSignature(urlencode), nil
+	return seller.AddSignature(ReportsPath, s), nil
 }
 
 // RequestReport request report

@@ -4,11 +4,9 @@ import (
 	"os"
 	"testing"
 	"time"
-
-	"github.com/stretchr/testify/assert"
 )
 
-func Test_ListOrders(t *testing.T) {
+func Test_GetReportList(t *testing.T) {
 	s := &Seller{
 		Country:   os.Getenv("country"),
 		SellerID:  os.Getenv("seller_id"),
@@ -17,6 +15,5 @@ func Test_ListOrders(t *testing.T) {
 		SecretKey: os.Getenv("secret_key"),
 	}
 	t.Logf("%+v", s)
-	s.ListOrders(time.Now().Add(-8*24*time.Hour), time.Now().Add(-1*time.Hour))
-	assert.Equal(t, 1, 1)
+	s.GetReportList(time.Now().Add(-8*24*time.Hour), time.Now().Add(-1*time.Hour), "")
 }
