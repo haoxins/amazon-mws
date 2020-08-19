@@ -86,3 +86,7 @@ func parseCSVReport(text string) []SettlementReportRow {
 
 	return rows
 }
+
+func endpointToHost(endpoint string) string {
+	return strings.Replace(endpoint, "https://", "", 1)
+}
