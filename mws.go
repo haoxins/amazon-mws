@@ -15,8 +15,10 @@ import (
 const (
 	// ReportTypeSettlement ...
 	ReportTypeSettlement = "_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_V2_"
-	// ReportsPath ...
+	// ReportsPath The reports path
 	ReportsPath = "/Reports/2009-01-01"
+	// OrdersPath The orders path
+	OrdersPath = "/Orders/2013-09-01"
 )
 
 // https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html
@@ -83,10 +85,10 @@ func (seller *AmazonSeller) AddSignature(urlencode string) string {
 	sort.Strings(params)
 	sortedParams := strings.Join(params, "&")
 
-	host := endpointToHost(seller.MWSEndpoint)
+	host := endpointToHost(seller.Endpoint)
 	toSignString := fmt.Sprintf("GET\n%s\n%s\n%s", host, ReportsPath, sortedParams)
 
-	hasher := hmac.New(sha256.New, []byte(seller.MwsSecretKey))
+	hasher := hmac.New(sha256.New, []byte(seller.SecretKey))
 	_, err := hasher.Write([]byte(toSignString))
 	tools.AssertError(err)
 
