@@ -86,8 +86,8 @@ func (seller *Seller) AddSignature(path string, urlencode string) string {
 	sort.Strings(params)
 	sortedParams := strings.Join(params, "&")
 
-	host := endpointToHost(seller.Endpoint)
-	toSignString := fmt.Sprintf("GET\n%s\n%s\n%s", host, ReportsPath, sortedParams)
+	host := endpointToHost(Endpoint[seller.Country])
+	toSignString := fmt.Sprintf("GET\n%s\n%s\n%s", host, path, sortedParams)
 
 	hasher := hmac.New(sha256.New, []byte(seller.SecretKey))
 	_, err := hasher.Write([]byte(toSignString))
@@ -105,7 +105,7 @@ func (seller *Seller) Request(path string, params string) ([]byte, error) {
 	h := resty.New()
 	res, err := h.R().
 		SetHeader("Content-Type", "x-www-form-urlencoded").
-		Get(seller.Endpoint + path + "?" + params)
+		Get(Endpoint[seller.Country] + path + "?" + params)
 
 	if err != nil {
 		return nil, err

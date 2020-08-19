@@ -1,6 +1,7 @@
 package mws
 
 import (
+	"fmt"
 	"net/url"
 	"time"
 
@@ -12,7 +13,11 @@ func (seller *Seller) ListOrders(startTime time.Time, endTime time.Time) {
 	params, err := seller.GenListOrdersParams(startTime, endTime)
 	tools.AssertError(err)
 
-	seller.RequestOrder(params)
+	body, err := seller.RequestOrder(params)
+	tools.AssertError(err)
+
+	// TODO
+	fmt.Println(string(body))
 }
 
 // GenListOrdersParams Generate list orders params
@@ -35,7 +40,7 @@ func (seller *Seller) GenListOrdersParams(startTime time.Time, endTime time.Time
 
 	s := v.Encode()
 
-	return seller.AddSignature(s), nil
+	return seller.AddSignature(OrdersPath, s), nil
 }
 
 // RequestOrder request order
