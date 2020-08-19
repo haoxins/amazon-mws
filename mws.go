@@ -70,6 +70,7 @@ var Endpoint = map[string]string{
 
 // Seller The seller info
 type Seller struct {
+	Country   string
 	SellerID  string
 	AuthToken string
 	Endpoint  string

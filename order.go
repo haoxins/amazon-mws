@@ -8,18 +8,18 @@ import (
 )
 
 // ListOrders List orders
-func (seller *Seller) ListOrders(countryCode string, startTime time.Time, endTime time.Time) {
-	params, err := seller.GenListOrdersParams(countryCode, startTime, endTime)
+func (seller *Seller) ListOrders(startTime time.Time, endTime time.Time) {
+	params, err := seller.GenListOrdersParams(startTime, endTime)
 	tools.AssertError(err)
 
 	seller.RequestOrder(params)
 }
 
 // GenListOrdersParams Generate list orders params
-func (seller *Seller) GenListOrdersParams(countryCode string, startTime time.Time, endTime time.Time) (string, error) {
+func (seller *Seller) GenListOrdersParams(startTime time.Time, endTime time.Time) (string, error) {
 	v := url.Values{}
 
-	mid := MarketplaceID[countryCode]
+	mid := MarketplaceID[seller.Country]
 
 	v.Add("Action", "ListOrders")
 	v.Add("SellerId", seller.SellerID)
