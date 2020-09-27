@@ -12,10 +12,10 @@ import (
 
 // GetReportList Get seller report list by report type
 func (seller *Seller) GetReportList(startTime time.Time, endTime time.Time, nextToken string) *GetReportListResult {
-	params, err := seller.GenGetReportListParams(ReportTypeSettlement, startTime, endTime, nextToken)
+	params, err := seller.genGetReportListParams(ReportTypeSettlement, startTime, endTime, nextToken)
 	tools.AssertError(err)
 
-	raw, err := seller.RequestReport(params)
+	raw, err := seller.requestReports(params)
 	tools.AssertError(err)
 
 	if nextToken == "" {
@@ -66,18 +66,17 @@ func (seller *Seller) GetAllReportIds(startTime time.Time, endTime time.Time) []
 
 // GetReportByID Get seller report by report id
 func (seller *Seller) GetReportByID(reportID string) []SettlementReportRow {
-	params, err := seller.GenGetReportParams(reportID)
+	params, err := seller.genGetReportParams(reportID)
 	tools.AssertError(err)
 
-	raw, err := seller.RequestReport(params)
+	raw, err := seller.requestReports(params)
 	tools.AssertError(err)
 	text := string(raw)
 
 	return parseCSVReport(text)
 }
 
-// GenGetReportListParams gen get report list params
-func (seller *Seller) GenGetReportListParams(reportType string, startTime time.Time, endTime time.Time, nextToken string) (string, error) {
+func (seller *Seller) genGetReportListParams(reportType string, startTime time.Time, endTime time.Time, nextToken string) (string, error) {
 	v := url.Values{}
 
 	if nextToken != "" {
@@ -105,8 +104,7 @@ func (seller *Seller) GenGetReportListParams(reportType string, startTime time.T
 	return seller.AddSignature(ReportsPath, s), nil
 }
 
-// GenGetReportParams gen get report params
-func (seller *Seller) GenGetReportParams(reportID string) (string, error) {
+func (seller *Seller) genGetReportParams(reportID string) (string, error) {
 	v := url.Values{}
 
 	v.Add("Action", "GetReport")
@@ -124,7 +122,6 @@ func (seller *Seller) GenGetReportParams(reportID string) (string, error) {
 	return seller.AddSignature(ReportsPath, s), nil
 }
 
-// RequestReport request report
-func (seller *Seller) RequestReport(params string) ([]byte, error) {
+func (seller *Seller) requestReports(params string) ([]byte, error) {
 	return seller.Request(ReportsPath, params)
 }
