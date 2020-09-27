@@ -4,7 +4,3 @@
 ## Amazon MWS SDKs
 
 https://developer.amazonservices.com
-
-## License
-
-**MIT**
