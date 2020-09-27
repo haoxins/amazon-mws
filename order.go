@@ -8,20 +8,25 @@ import (
 	"github.com/pkg4go/tools"
 )
 
+// ListOrdersParams MWS ListOrders API params
+type ListOrdersParams struct {
+	LastUpdatedAfter time.Time
+	LastUpdatedBefore time.Time
+}
+
 // ListOrders List orders
-func (seller *Seller) ListOrders(startTime time.Time, endTime time.Time) {
-	params, err := seller.GenListOrdersParams(startTime, endTime)
+func (seller *Seller) ListOrders(params ListOrdersParams) {
+	opts, err := seller.genListOrdersParams(params)
 	tools.AssertError(err)
 
-	body, err := seller.RequestOrder(params)
+	body, err := seller.requestOrders(opts)
 	tools.AssertError(err)
 
 	// TODO
 	fmt.Println(string(body))
 }
 
-// GenListOrdersParams Generate list orders params
-func (seller *Seller) GenListOrdersParams(startTime time.Time, endTime time.Time) (string, error) {
+func (seller *Seller) genListOrdersParams(params ListOrdersParams) (string, error) {
 	v := url.Values{}
 
 	mid := MarketplaceID[seller.Country]
@@ -31,8 +36,8 @@ func (seller *Seller) GenListOrdersParams(startTime time.Time, endTime time.Time
 	v.Add("MWSAuthToken", seller.AuthToken)
 	v.Add("AWSAccessKeyId", seller.AccessKey)
 	v.Add("MarketplaceId.Id.1", mid)
-	v.Add("LastUpdatedAfter", startTime.Format(time.RFC3339))
-	v.Add("LastUpdatedBefore", endTime.Format(time.RFC3339))
+	v.Add("LastUpdatedAfter", params.LastUpdatedAfter.Format(time.RFC3339))
+	v.Add("LastUpdatedBefore", params.LastUpdatedBefore.Format(time.RFC3339))
 	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
 	v.Add("SignatureVersion", "2")
 	v.Add("SignatureMethod", "HmacSHA256")
@@ -43,7 +48,6 @@ func (seller *Seller) GenListOrdersParams(startTime time.Time, endTime time.Time
 	return seller.AddSignature(OrdersPath, s), nil
 }
 
-// RequestOrder request order
-func (seller *Seller) RequestOrder(params string) ([]byte, error) {
+func (seller *Seller) requestOrders(params string) ([]byte, error) {
 	return seller.Request(OrdersPath, params)
 }
