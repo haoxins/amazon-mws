@@ -57,3 +57,17 @@ func (seller *Seller) get(path string, params string) ([]byte, error) {
 
 	return res.Body(), nil
 }
+
+func (seller *Seller) post(path string, params string) ([]byte, error) {
+	h := resty.New()
+	res, err := h.R().
+		SetHeader("Content-Type", "x-www-form-urlencoded").
+		SetBody([]byte(params)).
+		Post(Endpoint[seller.Country] + path)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return res.Body(), nil
+}
