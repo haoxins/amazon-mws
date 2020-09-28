@@ -3,6 +3,8 @@ package mws
 import (
 	"os"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_GetReportList(t *testing.T) {
@@ -13,6 +15,8 @@ func Test_GetReportList(t *testing.T) {
 		AccessKey: os.Getenv("access_key"),
 		SecretKey: os.Getenv("secret_key"),
 	}
-	t.Logf("%+v", s)
+
+	assert.NotEqual(t, s.SellerID, "")
+
 	// s.GetReportList(time.Now().Add(-8*24*time.Hour), time.Now().Add(-1*time.Hour), "")
 }

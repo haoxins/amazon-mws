@@ -15,7 +15,9 @@ func Test_ListOrders(t *testing.T) {
 		AccessKey: os.Getenv("access_key"),
 		SecretKey: os.Getenv("secret_key"),
 	}
-	t.Logf("%+v", s)
+
+	assert.NotEqual(t, s.SellerID, "")
+
 	// s.ListOrders(ListOrdersParams{
 	// 	LastUpdatedAfter:  time.Now().Add(-2 * time.Hour),
 	// 	LastUpdatedBefore: time.Now().Add(-1 * time.Hour),
