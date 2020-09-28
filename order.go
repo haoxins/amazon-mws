@@ -1,7 +1,9 @@
 package mws
 
 import (
+	"encoding/xml"
 	"fmt"
+	"log"
 	"net/url"
 	"time"
 
@@ -10,7 +12,7 @@ import (
 
 // ListOrdersParams MWS ListOrders API params
 type ListOrdersParams struct {
-	LastUpdatedAfter time.Time
+	LastUpdatedAfter  time.Time
 	LastUpdatedBefore time.Time
 }
 
@@ -22,8 +24,15 @@ func (seller *Seller) ListOrders(params ListOrdersParams) {
 	body, err := seller.requestOrders(opts)
 	tools.AssertError(err)
 
-	// TODO
-	fmt.Println(string(body))
+	data := ListOrdersResponse{}
+	err = xml.Unmarshal(body, &data)
+	if err != nil {
+		// TODO
+		log.Println(string(body))
+		return
+	}
+
+	fmt.Printf("%+v", data)
 }
 
 func (seller *Seller) genListOrdersParams(params ListOrdersParams) (string, error) {
@@ -45,9 +54,9 @@ func (seller *Seller) genListOrdersParams(params ListOrdersParams) (string, erro
 
 	s := v.Encode()
 
-	return seller.AddSignature(OrdersPath, s), nil
+	return seller.AddSignature("GET", OrdersPath, s), nil
 }
 
 func (seller *Seller) requestOrders(params string) ([]byte, error) {
-	return seller.Request(OrdersPath, params)
+	return seller.get(OrdersPath, params)
 }
