@@ -23,7 +23,7 @@ type Seller struct {
 }
 
 // AddSignature add signature
-func (seller *Seller) AddSignature(path string, urlencode string) string {
+func (seller *Seller) AddSignature(method string, path string, urlencode string) string {
 	escapedParams := strings.Replace(urlencode, ",", "%2C", -1)
 	escapedParams = strings.Replace(escapedParams, ":", "%3A", -1)
 
@@ -32,7 +32,7 @@ func (seller *Seller) AddSignature(path string, urlencode string) string {
 	sortedParams := strings.Join(params, "&")
 
 	host := endpointToHost(Endpoint[seller.Country])
-	toSignString := fmt.Sprintf("GET\n%s\n%s\n%s", host, path, sortedParams)
+	toSignString := fmt.Sprintf(method+"\n%s\n%s\n%s", host, path, sortedParams)
 
 	hasher := hmac.New(sha256.New, []byte(seller.SecretKey))
 	_, err := hasher.Write([]byte(toSignString))
@@ -45,8 +45,7 @@ func (seller *Seller) AddSignature(path string, urlencode string) string {
 	return sortedParams + "&Signature=" + hash
 }
 
-// Request ...
-func (seller *Seller) Request(path string, params string) ([]byte, error) {
+func (seller *Seller) get(path string, params string) ([]byte, error) {
 	h := resty.New()
 	res, err := h.R().
 		SetHeader("Content-Type", "x-www-form-urlencoded").

@@ -101,7 +101,7 @@ func (seller *Seller) genGetReportListParams(reportType string, startTime time.T
 
 	s := v.Encode()
 
-	return seller.AddSignature(ReportsPath, s), nil
+	return seller.AddSignature("GET", ReportsPath, s), nil
 }
 
 func (seller *Seller) genGetReportParams(reportID string) (string, error) {
@@ -119,9 +119,9 @@ func (seller *Seller) genGetReportParams(reportID string) (string, error) {
 
 	s := v.Encode()
 
-	return seller.AddSignature(ReportsPath, s), nil
+	return seller.AddSignature("GET", ReportsPath, s), nil
 }
 
 func (seller *Seller) requestReports(params string) ([]byte, error) {
-	return seller.Request(ReportsPath, params)
+	return seller.get(ReportsPath, params)
 }

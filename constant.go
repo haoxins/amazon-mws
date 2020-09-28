@@ -9,6 +9,8 @@ const (
 	OrdersPath = "/Orders/2013-09-01"
 	// FeedsPath The feeds path
 	FeedsPath = "/Feeds/2009-01-01"
+	// InboundShipmentPath The inbound shipment path
+	InboundShipmentPath = "/FulfillmentInboundShipment/2010-10-01"
 )
 
 // https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html

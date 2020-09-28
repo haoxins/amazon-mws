@@ -3,7 +3,6 @@ package mws
 import (
 	"os"
 	"testing"
-	"time"
 )
 
 func Test_GetReportList(t *testing.T) {
@@ -15,5 +14,5 @@ func Test_GetReportList(t *testing.T) {
 		SecretKey: os.Getenv("secret_key"),
 	}
 	t.Logf("%+v", s)
-	s.GetReportList(time.Now().Add(-8*24*time.Hour), time.Now().Add(-1*time.Hour), "")
+	// s.GetReportList(time.Now().Add(-8*24*time.Hour), time.Now().Add(-1*time.Hour), "")
 }
