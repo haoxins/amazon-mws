@@ -12,8 +12,7 @@ import (
 
 // GetReportList Get seller report list by report type
 func (seller *Seller) GetReportList(startTime time.Time, endTime time.Time, nextToken string) *GetReportListResult {
-	params, err := seller.genGetReportListParams(ReportTypeSettlement, startTime, endTime, nextToken)
-	tools.AssertError(err)
+	params := seller.genGetReportListParams(ReportTypeSettlement, startTime, endTime, nextToken)
 
 	raw, err := seller.requestReports(params)
 	tools.AssertError(err)
@@ -66,8 +65,7 @@ func (seller *Seller) GetAllReportIds(startTime time.Time, endTime time.Time) []
 
 // GetReportByID Get seller report by report id
 func (seller *Seller) GetReportByID(reportID string) []SettlementReportRow {
-	params, err := seller.genGetReportParams(reportID)
-	tools.AssertError(err)
+	params := seller.genGetReportParams(reportID)
 
 	raw, err := seller.requestReports(params)
 	tools.AssertError(err)
@@ -76,7 +74,7 @@ func (seller *Seller) GetReportByID(reportID string) []SettlementReportRow {
 	return parseCSVReport(text)
 }
 
-func (seller *Seller) genGetReportListParams(reportType string, startTime time.Time, endTime time.Time, nextToken string) (string, error) {
+func (seller *Seller) genGetReportListParams(reportType string, startTime time.Time, endTime time.Time, nextToken string) string {
 	v := url.Values{}
 
 	if nextToken != "" {
@@ -101,10 +99,10 @@ func (seller *Seller) genGetReportListParams(reportType string, startTime time.T
 
 	s := v.Encode()
 
-	return seller.AddSignature("GET", ReportsPath, s), nil
+	return s
 }
 
-func (seller *Seller) genGetReportParams(reportID string) (string, error) {
+func (seller *Seller) genGetReportParams(reportID string) string {
 	v := url.Values{}
 
 	v.Add("Action", "GetReport")
@@ -119,9 +117,11 @@ func (seller *Seller) genGetReportParams(reportID string) (string, error) {
 
 	s := v.Encode()
 
-	return seller.AddSignature("GET", ReportsPath, s), nil
+	return s
 }
 
 func (seller *Seller) requestReports(params string) ([]byte, error) {
+	// According to the document, this should be POST
+	// But, only GET works
 	return seller.get(ReportsPath, params)
 }

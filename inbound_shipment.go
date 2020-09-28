@@ -33,8 +33,7 @@ type ListInboundShipmentsParams struct {
 
 // ListInboundShipments ...
 func (seller *Seller) ListInboundShipments(params ListInboundShipmentsParams) {
-	opts, err := seller.genListInboundShipmentsParams(params)
-	tools.AssertError(err)
+	opts := seller.genListInboundShipmentsParams(params)
 
 	body, err := seller.requestInboundShipment(opts)
 	tools.AssertError(err)
@@ -43,7 +42,7 @@ func (seller *Seller) ListInboundShipments(params ListInboundShipmentsParams) {
 	fmt.Println(string(body))
 }
 
-func (seller *Seller) genListInboundShipmentsParams(params ListInboundShipmentsParams) (string, error) {
+func (seller *Seller) genListInboundShipmentsParams(params ListInboundShipmentsParams) string {
 	v := url.Values{}
 
 	v.Add("Action", "ListInboundShipments")
@@ -58,12 +57,12 @@ func (seller *Seller) genListInboundShipmentsParams(params ListInboundShipmentsP
 	v.Add("Version", "2010-10-01")
 
 	for key, val := range params.ShipmentStatusList {
-		v.Add("ShipmentStatusList.member."+cast.ToString(key), cast.ToString(val))
+		v.Add("ShipmentStatusList.member."+cast.ToString(key+1), string(val))
 	}
 
 	s := v.Encode()
 
-	return seller.AddSignature("GET", OrdersPath, s), nil
+	return s
 }
 
 func (seller *Seller) requestInboundShipment(params string) ([]byte, error) {

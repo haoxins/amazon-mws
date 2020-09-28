@@ -16,8 +16,7 @@ type ListFinancialEventsParams struct {
 
 // ListFinancialEvents ...
 func (seller *Seller) ListFinancialEvents(params ListFinancialEventsParams) {
-	opts, err := seller.genListFinancialEventsParams(params)
-	tools.AssertError(err)
+	opts := seller.genListFinancialEventsParams(params)
 
 	body, err := seller.requestFinances(opts)
 	tools.AssertError(err)
@@ -26,25 +25,27 @@ func (seller *Seller) ListFinancialEvents(params ListFinancialEventsParams) {
 	fmt.Println(string(body))
 }
 
-func (seller *Seller) genListFinancialEventsParams(params ListFinancialEventsParams) (string, error) {
+func (seller *Seller) genListFinancialEventsParams(params ListFinancialEventsParams) string {
 	v := url.Values{}
 
-	v.Add("Action", "ListFinancialEvents")
-	v.Add("SellerId", seller.SellerID)
-	v.Add("MWSAuthToken", seller.AuthToken)
 	v.Add("AWSAccessKeyId", seller.AccessKey)
+	v.Add("Action", "ListFinancialEvents")
+	v.Add("MWSAuthToken", seller.AuthToken)
+	v.Add("SellerId", seller.SellerID)
 	v.Add("PostedAfter", params.PostedAfter.Format(time.RFC3339))
 	v.Add("PostedBefore", params.PostedBefore.Format(time.RFC3339))
-	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
-	v.Add("SignatureVersion", "2")
 	v.Add("SignatureMethod", "HmacSHA256")
+	v.Add("SignatureVersion", "2")
+	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
 	v.Add("Version", "2015-05-01")
 
 	s := v.Encode()
 
-	return seller.AddSignature("POST", OrdersPath, s), nil
+	return s
 }
 
 func (seller *Seller) requestFinances(params string) ([]byte, error) {
-	return seller.post(FinancesPath, params)
+	// According to the document, this should be POST
+	// But, only GET works
+	return seller.get(FinancesPath, params)
 }

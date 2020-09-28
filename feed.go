@@ -16,8 +16,7 @@ type GetFeedSubmissionListParams struct {
 
 // GetFeedSubmissionList ...
 func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) {
-	opts, err := seller.genGetFeedSubmissionListParams(params)
-	tools.AssertError(err)
+	opts := seller.genGetFeedSubmissionListParams(params)
 
 	body, err := seller.requestFeed(opts)
 	tools.AssertError(err)
@@ -26,7 +25,7 @@ func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) 
 	fmt.Println(string(body))
 }
 
-func (seller *Seller) genGetFeedSubmissionListParams(params GetFeedSubmissionListParams) (string, error) {
+func (seller *Seller) genGetFeedSubmissionListParams(params GetFeedSubmissionListParams) string {
 	v := url.Values{}
 
 	mid := MarketplaceID[seller.Country]
@@ -45,9 +44,11 @@ func (seller *Seller) genGetFeedSubmissionListParams(params GetFeedSubmissionLis
 
 	s := v.Encode()
 
-	return seller.AddSignature("POST", OrdersPath, s), nil
+	return s
 }
 
 func (seller *Seller) requestFeed(params string) ([]byte, error) {
-	return seller.post(FeedsPath, params)
+	// According to the document, this should be POST
+	// But, only GET works
+	return seller.get(FeedsPath, params)
 }

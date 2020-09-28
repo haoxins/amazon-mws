@@ -22,9 +22,8 @@ type Seller struct {
 	SecretKey string
 }
 
-// AddSignature add signature
-func (seller *Seller) AddSignature(method string, path string, urlencode string) string {
-	escapedParams := strings.Replace(urlencode, ",", "%2C", -1)
+func (seller *Seller) addSignature(method string, path string, payload string) string {
+	escapedParams := strings.Replace(payload, ",", "%2C", -1)
 	escapedParams = strings.Replace(escapedParams, ":", "%3A", -1)
 
 	params := strings.Split(escapedParams, "&")
@@ -45,11 +44,13 @@ func (seller *Seller) AddSignature(method string, path string, urlencode string)
 	return sortedParams + "&Signature=" + hash
 }
 
-func (seller *Seller) get(path string, params string) ([]byte, error) {
+func (seller *Seller) get(path string, payload string) ([]byte, error) {
+	payload = seller.addSignature("GET", path, payload)
+
 	h := resty.New()
 	res, err := h.R().
 		SetHeader("Content-Type", "x-www-form-urlencoded").
-		Get(Endpoint[seller.Country] + path + "?" + params)
+		Get(Endpoint[seller.Country] + path + "?" + payload)
 
 	if err != nil {
 		return nil, err
@@ -58,11 +59,13 @@ func (seller *Seller) get(path string, params string) ([]byte, error) {
 	return res.Body(), nil
 }
 
-func (seller *Seller) post(path string, params string) ([]byte, error) {
+func (seller *Seller) post(path string, payload string) ([]byte, error) {
+	payload = seller.addSignature("POST", path, payload)
+
 	h := resty.New()
 	res, err := h.R().
 		SetHeader("Content-Type", "x-www-form-urlencoded").
-		SetBody([]byte(params)).
+		SetBody([]byte(payload)).
 		Post(Endpoint[seller.Country] + path)
 
 	if err != nil {
