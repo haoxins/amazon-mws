@@ -18,8 +18,7 @@ type ListOrdersParams struct {
 
 // ListOrders List orders
 func (seller *Seller) ListOrders(params ListOrdersParams) {
-	opts, err := seller.genListOrdersParams(params)
-	tools.AssertError(err)
+	opts := seller.genListOrdersParams(params)
 
 	body, err := seller.requestOrders(opts)
 	tools.AssertError(err)
@@ -35,7 +34,7 @@ func (seller *Seller) ListOrders(params ListOrdersParams) {
 	fmt.Printf("%+v", data)
 }
 
-func (seller *Seller) genListOrdersParams(params ListOrdersParams) (string, error) {
+func (seller *Seller) genListOrdersParams(params ListOrdersParams) string {
 	v := url.Values{}
 
 	mid := MarketplaceID[seller.Country]
@@ -54,7 +53,7 @@ func (seller *Seller) genListOrdersParams(params ListOrdersParams) (string, erro
 
 	s := v.Encode()
 
-	return seller.AddSignature("GET", OrdersPath, s), nil
+	return s
 }
 
 func (seller *Seller) requestOrders(params string) ([]byte, error) {
