@@ -1,7 +1,9 @@
 package mws
 
 import (
+	"encoding/xml"
 	"fmt"
+	"log"
 	"net/url"
 	"time"
 
@@ -15,40 +17,83 @@ type GetFeedSubmissionListParams struct {
 }
 
 // GetFeedSubmissionList ...
-func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) {
-	opts := seller.genGetFeedSubmissionListParams(params)
+// https://docs.developer.amazonservices.com/en_UK/feeds/Feeds_GetFeedSubmissionList.html
+// Maximum request quota Restore rate                 Hourly request quota
+// 10 requests           One request every 45 seconds 80 requests per hour
+func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) []FeedSubmissionInfo {
+	opts := seller.genGetFeedSubmissionListParams(params, "")
 
-	body, err := seller.requestFeed(opts)
-	tools.AssertError(err)
+	result := seller.requestFeed(opts)
 
-	// TODO
-	fmt.Println(string(body))
+	var feeds []FeedSubmissionInfo
+
+	feeds = append(feeds, result.FeedSubmissionInfo...)
+
+	for {
+		if !result.HasNext {
+			break
+		}
+
+		result = seller.getFeedSubmissionListByNextToken(result.NextToken)
+		feeds = append(feeds, result.FeedSubmissionInfo...)
+	}
+
+	return feeds
 }
 
-func (seller *Seller) genGetFeedSubmissionListParams(params GetFeedSubmissionListParams) string {
+func (seller *Seller) getFeedSubmissionListByNextToken(nextToken string) GetFeedSubmissionListResult {
+	opts := seller.genGetFeedSubmissionListParams(GetFeedSubmissionListParams{}, nextToken)
+
+	result := seller.requestFeed(opts)
+
+	return result
+}
+
+func (seller *Seller) genGetFeedSubmissionListParams(params GetFeedSubmissionListParams, nextToken string) string {
 	v := url.Values{}
 
 	mid := MarketplaceID[seller.Country]
 
-	v.Add("Action", "GetFeedSubmissionList")
+	v.Add("AWSAccessKeyId", seller.AccessKey)
 	v.Add("SellerId", seller.SellerID)
 	v.Add("MWSAuthToken", seller.AuthToken)
-	v.Add("AWSAccessKeyId", seller.AccessKey)
 	v.Add("Marketplace", mid)
-	v.Add("SubmittedFromDate", params.SubmittedFromDate.Format(time.RFC3339))
-	v.Add("SubmittedToDate", params.SubmittedToDate.Format(time.RFC3339))
+	v.Add("MaxCount", "100")
 	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
 	v.Add("SignatureVersion", "2")
 	v.Add("SignatureMethod", "HmacSHA256")
 	v.Add("Version", "2009-01-01")
+
+	if nextToken != "" {
+		v.Add("Action", "GetFeedSubmissionListByNextToken")
+		v.Add("NextToken", nextToken)
+	} else {
+		v.Add("Action", "GetFeedSubmissionList")
+		v.Add("SubmittedFromDate", params.SubmittedFromDate.Format(time.RFC3339))
+		v.Add("SubmittedToDate", params.SubmittedToDate.Format(time.RFC3339))
+	}
 
 	s := v.Encode()
 
 	return s
 }
 
-func (seller *Seller) requestFeed(params string) ([]byte, error) {
+func (seller *Seller) requestFeed(params string) GetFeedSubmissionListResult {
 	// According to the document, this should be POST
 	// But, only GET works
-	return seller.get(FeedsPath, params)
+	body, err := seller.get(FeedsPath, params)
+	tools.AssertError(err)
+
+	// TODO - Remove this
+	fmt.Println(string(body))
+
+	data := GetFeedSubmissionListResponse{}
+	err = xml.Unmarshal(body, &data)
+	if err != nil {
+		// TODO
+		log.Println(string(body))
+		return GetFeedSubmissionListResult{}
+	}
+
+	return data.GetFeedSubmissionListResult
 }
