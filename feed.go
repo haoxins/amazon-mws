@@ -2,7 +2,6 @@ package mws
 
 import (
 	"encoding/xml"
-	"fmt"
 	"net/url"
 	"time"
 
@@ -82,9 +81,6 @@ func (seller *Seller) requestFeed(qs string, byNextToken bool) GetFeedSubmission
 	// But, only GET works
 	body, err := seller.get(FeedsPath, qs)
 	tools.AssertError(err)
-
-	// TODO - Remove this
-	fmt.Println(string(body))
 
 	if byNextToken {
 		data := GetFeedSubmissionListByNextTokenResponse{}
