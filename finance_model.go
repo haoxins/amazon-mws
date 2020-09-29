@@ -11,6 +11,15 @@ type ListFinancialEventsResponse struct {
 	ResponseMetadata          ResponseMetadata          `xml:"ResponseMetadata"`
 }
 
+// ListFinancialEventsByNextTokenResponse ...
+type ListFinancialEventsByNextTokenResponse struct {
+	XMLName                   xml.Name                  `xml:"ListFinancialEventsByNextTokenResponse"`
+	Text                      string                    `xml:",chardata"`
+	Xmlns                     string                    `xml:"xmlns,attr"`
+	ListFinancialEventsResult ListFinancialEventsResult `xml:"ListFinancialEventsByNextTokenResult"`
+	ResponseMetadata          ResponseMetadata          `xml:"ResponseMetadata"`
+}
+
 // ListFinancialEventsResult ...
 type ListFinancialEventsResult struct {
 	Text            string          `xml:",chardata"`
