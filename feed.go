@@ -60,9 +60,9 @@ func (seller *Seller) genGetFeedSubmissionListParams(params GetFeedSubmissionLis
 	v.Add("Marketplace", mid)
 	v.Add("MaxCount", "100")
 	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
-	v.Add("SignatureVersion", "2")
-	v.Add("SignatureMethod", "HmacSHA256")
 	v.Add("Version", "2009-01-01")
+	v.Add("SignatureMethod", "HmacSHA256")
+	v.Add("SignatureVersion", "2")
 
 	if nextToken != "" {
 		v.Add("Action", "GetFeedSubmissionListByNextToken")

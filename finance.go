@@ -1,7 +1,8 @@
 package mws
 
 import (
-	"fmt"
+	"encoding/xml"
+	"errors"
 	"net/url"
 	"time"
 
@@ -15,47 +16,85 @@ type ListFinancialEventsParams struct {
 }
 
 // ListFinancialEvents ...
-func (seller *Seller) ListFinancialEvents(params ListFinancialEventsParams) error {
-	opts := seller.genListFinancialEventsParams(params)
+func (seller *Seller) ListFinancialEvents(params ListFinancialEventsParams) []FinancialEvents {
+	opts := seller.genListFinancialEventsParams(params, "")
+	var financialEventsList []FinancialEvents
 
-	body, err := seller.requestFinances(opts, false)
+	result, err := seller.requestFinances(opts, false)
 	tools.AssertError(err)
 
-	fmt.Println(string(body))
+	financialEventsList = append(financialEventsList, result.FinancialEvents)
 
-	// data := ListFinancialEventsResponse{}
-	// err = xml.Unmarshal(body, &data)
-	// if err != nil {
+	for {
+		if result.NextToken == "" {
+			break
+		}
 
-	// 	return errors.New(string(body))
-	// }
+		result = seller.listFinancialEventsByNextToken(result.NextToken)
+		financialEventsList = append(financialEventsList, result.FinancialEvents)
+	}
 
-	// fmt.Printf("%+v", data)
-	return nil
+	return financialEventsList
 }
 
-func (seller *Seller) genListFinancialEventsParams(params ListFinancialEventsParams) string {
+func (seller *Seller) listFinancialEventsByNextToken(nextToken string) ListFinancialEventsResult {
+	opts := seller.genListFinancialEventsParams(ListFinancialEventsParams{}, nextToken)
+
+	result, err := seller.requestFinances(opts, true)
+	tools.AssertError(err)
+
+	return result
+}
+
+func (seller *Seller) genListFinancialEventsParams(params ListFinancialEventsParams, nextToken string) string {
 	v := url.Values{}
 
 	v.Add("AWSAccessKeyId", seller.AccessKey)
-	v.Add("Action", "ListFinancialEvents")
-	v.Add("MWSAuthToken", seller.AuthToken)
 	v.Add("SellerId", seller.SellerID)
+	v.Add("MWSAuthToken", seller.AuthToken)
 	v.Add("MaxResultsPerPage", "100")
-	v.Add("PostedAfter", params.PostedAfter.Format(time.RFC3339))
-	v.Add("PostedBefore", params.PostedBefore.Format(time.RFC3339))
-	v.Add("SignatureMethod", "HmacSHA256")
-	v.Add("SignatureVersion", "2")
 	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
 	v.Add("Version", "2015-05-01")
+	v.Add("SignatureMethod", "HmacSHA256")
+	v.Add("SignatureVersion", "2")
+
+	if nextToken != "" {
+		v.Add("Action", "ListFinancialEventsByNextToken")
+		v.Add("NextToken", nextToken)
+	} else {
+		v.Add("Action", "ListFinancialEvents")
+		v.Add("PostedAfter", params.PostedAfter.Format(time.RFC3339))
+		v.Add("PostedBefore", params.PostedBefore.Format(time.RFC3339))
+	}
 
 	s := v.Encode()
 
 	return s
 }
 
-func (seller *Seller) requestFinances(qs string, byNextToken bool) ([]byte, error) {
+func (seller *Seller) requestFinances(qs string, byNextToken bool) (ListFinancialEventsResult, error) {
 	// According to the document, this should be POST
 	// But, only GET works
-	return seller.get(FinancesPath, qs)
+	body, err := seller.get(FinancesPath, qs)
+	tools.AssertError(err)
+
+	if byNextToken {
+		data := ListFinancialEventsByNextTokenResponse{}
+		err = xml.Unmarshal(body, &data)
+
+		if err != nil {
+			return data.ListFinancialEventsResult, errors.New(string(body))
+		}
+
+		return data.ListFinancialEventsResult, nil
+	}
+
+	data := ListFinancialEventsResponse{}
+	err = xml.Unmarshal(body, &data)
+
+	if err != nil {
+		return data.ListFinancialEventsResult, errors.New(string(body))
+	}
+
+	return data.ListFinancialEventsResult, nil
 }
