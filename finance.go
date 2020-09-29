@@ -1,8 +1,6 @@
 package mws
 
 import (
-	"encoding/xml"
-	"errors"
 	"fmt"
 	"net/url"
 	"time"
@@ -20,19 +18,19 @@ type ListFinancialEventsParams struct {
 func (seller *Seller) ListFinancialEvents(params ListFinancialEventsParams) error {
 	opts := seller.genListFinancialEventsParams(params)
 
-	body, err := seller.requestFinances(opts)
+	body, err := seller.requestFinances(opts, false)
 	tools.AssertError(err)
 
 	fmt.Println(string(body))
 
-	data := ListFinancialEventsResponse{}
-	err = xml.Unmarshal(body, &data)
-	if err != nil {
+	// data := ListFinancialEventsResponse{}
+	// err = xml.Unmarshal(body, &data)
+	// if err != nil {
 
-		return errors.New(string(body))
-	}
+	// 	return errors.New(string(body))
+	// }
 
-	fmt.Printf("%+v", data)
+	// fmt.Printf("%+v", data)
 	return nil
 }
 
@@ -43,6 +41,7 @@ func (seller *Seller) genListFinancialEventsParams(params ListFinancialEventsPar
 	v.Add("Action", "ListFinancialEvents")
 	v.Add("MWSAuthToken", seller.AuthToken)
 	v.Add("SellerId", seller.SellerID)
+	v.Add("MaxResultsPerPage", "100")
 	v.Add("PostedAfter", params.PostedAfter.Format(time.RFC3339))
 	v.Add("PostedBefore", params.PostedBefore.Format(time.RFC3339))
 	v.Add("SignatureMethod", "HmacSHA256")
@@ -55,7 +54,7 @@ func (seller *Seller) genListFinancialEventsParams(params ListFinancialEventsPar
 	return s
 }
 
-func (seller *Seller) requestFinances(qs string, byNextToken string) ([]byte, error) {
+func (seller *Seller) requestFinances(qs string, byNextToken bool) ([]byte, error) {
 	// According to the document, this should be POST
 	// But, only GET works
 	return seller.get(FinancesPath, qs)
