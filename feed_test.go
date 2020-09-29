@@ -19,7 +19,7 @@ func Test_GetFeedSubmissionList(t *testing.T) {
 	assert.NotEqual(t, s.SellerID, "")
 
 	// feeds := s.GetFeedSubmissionList(GetFeedSubmissionListParams{
-	// 	SubmittedFromDate: time.Now().Add(-8 * 24 * time.Hour),
+	// 	SubmittedFromDate: time.Now().Add(-3 * 24 * time.Hour),
 	// 	SubmittedToDate:   time.Now().Add(-1 * time.Hour),
 	// })
 
