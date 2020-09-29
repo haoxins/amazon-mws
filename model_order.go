@@ -8,10 +8,7 @@ type ListOrdersResponse struct {
 	Text             string           `xml:",chardata"`
 	Xmlns            string           `xml:"xmlns,attr"`
 	ListOrdersResult ListOrdersResult `xml:"ListOrdersResult"`
-	ResponseMetadata struct {
-		Text      string `xml:",chardata"`
-		RequestID string `xml:"RequestId"`
-	} `xml:"ResponseMetadata"`
+	ResponseMetadata ResponseMetadata `xml:"ResponseMetadata"`
 }
 
 // ListOrdersResult ...
