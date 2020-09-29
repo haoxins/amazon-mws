@@ -8,10 +8,7 @@ type GetReportListResponse struct {
 	Text                string              `xml:",chardata"`
 	Xmlns               string              `xml:"xmlns,attr"`
 	GetReportListResult GetReportListResult `xml:"GetReportListResult"`
-	ResponseMetadata    struct {
-		Text      string `xml:",chardata"`
-		RequestID string `xml:"RequestId"`
-	} `xml:"ResponseMetadata"`
+	ResponseMetadata    ResponseMetadata    `xml:"ResponseMetadata"`
 }
 
 // GetReportListByNextTokenResponse The Get report list by next token response
@@ -20,10 +17,7 @@ type GetReportListByNextTokenResponse struct {
 	Text                string              `xml:",chardata"`
 	Xmlns               string              `xml:"xmlns,attr"`
 	GetReportListResult GetReportListResult `xml:"GetReportListResult"`
-	ResponseMetadata    struct {
-		Text      string `xml:",chardata"`
-		RequestID string `xml:"RequestId"`
-	} `xml:"ResponseMetadata"`
+	ResponseMetadata    ResponseMetadata    `xml:"ResponseMetadata"`
 }
 
 // GetReportListResult The Get report list result
