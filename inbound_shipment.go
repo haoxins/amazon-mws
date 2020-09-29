@@ -1,7 +1,8 @@
 package mws
 
 import (
-	"fmt"
+	"encoding/xml"
+	"errors"
 	"net/url"
 	"time"
 
@@ -32,32 +33,59 @@ type ListInboundShipmentsParams struct {
 }
 
 // ListInboundShipments ...
-func (seller *Seller) ListInboundShipments(params ListInboundShipmentsParams) {
-	opts := seller.genListInboundShipmentsParams(params)
+func (seller *Seller) ListInboundShipments(params ListInboundShipmentsParams) []ShipmentMember {
+	opts := seller.genListInboundShipmentsParams(params, "")
 
-	body, err := seller.requestInboundShipment(opts)
+	var members []ShipmentMember
+
+	result, err := seller.requestInboundShipment(opts, false)
 	tools.AssertError(err)
 
-	// TODO
-	fmt.Println(string(body))
+	members = append(members, result.ShipmentData.Member...)
+
+	for {
+		if result.NextToken == "" {
+			break
+		}
+
+		result = seller.listInboundShipmentsByNextToken(result.NextToken)
+		members = append(members, result.ShipmentData.Member...)
+	}
+
+	return members
+
 }
 
-func (seller *Seller) genListInboundShipmentsParams(params ListInboundShipmentsParams) string {
+func (seller *Seller) listInboundShipmentsByNextToken(nextToken string) ListInboundShipmentsResult {
+	opts := seller.genListInboundShipmentsParams(ListInboundShipmentsParams{}, nextToken)
+
+	result, err := seller.requestInboundShipment(opts, true)
+	tools.AssertError(err)
+
+	return result
+}
+
+func (seller *Seller) genListInboundShipmentsParams(params ListInboundShipmentsParams, nextToken string) string {
 	v := url.Values{}
 
-	v.Add("Action", "ListInboundShipments")
+	v.Add("AWSAccessKeyId", seller.AccessKey)
 	v.Add("SellerId", seller.SellerID)
 	v.Add("MWSAuthToken", seller.AuthToken)
-	v.Add("AWSAccessKeyId", seller.AccessKey)
-	v.Add("LastUpdatedAfter", params.LastUpdatedAfter.Format(time.RFC3339))
-	v.Add("LastUpdatedBefore", params.LastUpdatedBefore.Format(time.RFC3339))
 	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
-	v.Add("SignatureVersion", "2")
-	v.Add("SignatureMethod", "HmacSHA256")
 	v.Add("Version", "2010-10-01")
+	v.Add("SignatureMethod", "HmacSHA256")
+	v.Add("SignatureVersion", "2")
 
-	for key, val := range params.ShipmentStatusList {
-		v.Add("ShipmentStatusList.member."+cast.ToString(key+1), string(val))
+	if nextToken != "" {
+		v.Add("Action", "ListInboundShipmentsByNextToken")
+		v.Add("NextToken", nextToken)
+	} else {
+		v.Add("Action", "ListInboundShipments")
+		v.Add("LastUpdatedAfter", params.LastUpdatedAfter.Format(time.RFC3339))
+		v.Add("LastUpdatedBefore", params.LastUpdatedBefore.Format(time.RFC3339))
+		for key, val := range params.ShipmentStatusList {
+			v.Add("ShipmentStatusList.member."+cast.ToString(key+1), string(val))
+		}
 	}
 
 	s := v.Encode()
@@ -65,6 +93,28 @@ func (seller *Seller) genListInboundShipmentsParams(params ListInboundShipmentsP
 	return s
 }
 
-func (seller *Seller) requestInboundShipment(params string) ([]byte, error) {
-	return seller.get(InboundShipmentPath, params)
+func (seller *Seller) requestInboundShipment(qs string, byNextToken bool) (ListInboundShipmentsResult, error) {
+	body, err := seller.get(InboundShipmentPath, qs)
+	tools.AssertError(err)
+
+	if byNextToken {
+		data := ListInboundShipmentsByNextTokenResponse{}
+		err = xml.Unmarshal(body, &data)
+
+		if err != nil {
+			return data.ListInboundShipmentsResult, errors.New(string(body))
+		}
+
+		return data.ListInboundShipmentsResult, nil
+	}
+
+	data := ListInboundShipmentsResponse{}
+	err = xml.Unmarshal(body, &data)
+
+	if err != nil {
+		return data.ListInboundShipmentsResult, errors.New(string(body))
+	}
+
+	return data.ListInboundShipmentsResult, nil
+
 }

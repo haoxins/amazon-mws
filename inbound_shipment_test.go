@@ -3,7 +3,6 @@ package mws
 import (
 	"os"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -19,18 +18,20 @@ func Test_ListInboundShipments(t *testing.T) {
 
 	assert.NotEqual(t, s.SellerID, "")
 
-	s.ListInboundShipments(ListInboundShipmentsParams{
-		ShipmentStatusList: []shipmentStatus{
-			shipmentStatusWorking,
-			shipmentStatusShipped,
-			shipmentStatusInTransit,
-			shipmentStatusDelivered,
-			shipmentStatusCheckedIn,
-			shipmentStatusReceiving,
-			shipmentStatusClosed,
-			shipmentStatusDeleted,
-		},
-		LastUpdatedAfter:  time.Now().Add(-24 * time.Hour),
-		LastUpdatedBefore: time.Now().Add(-1 * time.Hour),
-	})
+	// members := s.ListInboundShipments(ListInboundShipmentsParams{
+	// 	ShipmentStatusList: []shipmentStatus{
+	// 		shipmentStatusWorking,
+	// 		shipmentStatusShipped,
+	// 		shipmentStatusInTransit,
+	// 		shipmentStatusDelivered,
+	// 		shipmentStatusCheckedIn,
+	// 		shipmentStatusReceiving,
+	// 		shipmentStatusClosed,
+	// 		shipmentStatusDeleted,
+	// 	},
+	// 	LastUpdatedAfter:  time.Now().Add(-24 * time.Hour),
+	// 	LastUpdatedBefore: time.Now().Add(-1 * time.Hour),
+	// })
+
+	// t.Logf("%+v", members)
 }
