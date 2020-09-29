@@ -3,6 +3,7 @@ package mws
 import (
 	"os"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -18,8 +19,10 @@ func Test_ListFinancialEvents(t *testing.T) {
 
 	assert.NotEqual(t, s.SellerID, "")
 
-	// s.ListFinancialEvents(ListFinancialEventsParams{
-	// 	PostedAfter:  time.Now().Add(-2 * time.Hour),
-	// 	PostedBefore: time.Now().Add(-1 * time.Hour),
-	// })
+	s.ListFinancialEvents(ListFinancialEventsParams{
+		PostedAfter:  time.Now().Add(-2 * time.Hour),
+		PostedBefore: time.Now().Add(-1 * time.Hour),
+	})
+
+	// t.Logf("%+v", finances)
 }

@@ -2,201 +2,173 @@ package mws
 
 import "encoding/xml"
 
+// ListFinancialEventsResponse ...
 type ListFinancialEventsResponse struct {
 	XMLName                   xml.Name `xml:"ListFinancialEventsResponse"`
 	Text                      string   `xml:",chardata"`
 	Xmlns                     string   `xml:"xmlns,attr"`
 	ListFinancialEventsResult struct {
-		Text            string `xml:",chardata"`
-		FinancialEvents struct {
-			Text                       string `xml:",chardata"`
-			ProductAdsPaymentEventList []struct {
-				Text                   string `xml:",chardata"`
-				ProductAdsPaymentEvent struct {
-					Text            string `xml:",chardata"`
-					PostedDate      string `xml:"PostedDate"`
-					TransactionType string `xml:"transactionType"`
-					InvoiceId       string `xml:"invoiceId"`
-					BaseValue       struct {
-						Text           string `xml:",chardata"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-					} `xml:"baseValue"`
-					TaxValue struct {
-						Text           string `xml:",chardata"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-					} `xml:"taxValue"`
-					TransactionValue struct {
-						Text           string `xml:",chardata"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-					} `xml:"transactionValue"`
-				} `xml:"ProductAdsPaymentEvent"`
-			} `xml:"ProductAdsPaymentEventList"`
-			RentalTransactionEventList     string `xml:"RentalTransactionEventList"`
-			PayWithAmazonEventList         string `xml:"PayWithAmazonEventList"`
-			ServiceFeeEventList            string `xml:"ServiceFeeEventList"`
-			ServiceProviderCreditEventList string `xml:"ServiceProviderCreditEventList"`
-			SellerDealPaymentEventList     struct {
-				Text                   string `xml:",chardata"`
-				SellerDealPaymentEvent struct {
-					Text            string `xml:",chardata"`
-					PostedDate      string `xml:"PostedDate"`
-					DealDescription string `xml:"DealDescription"`
-					DealId          string `xml:"DealId"`
-					EventType       string `xml:"EventType"`
-					FeeType         string `xml:"FeeType"`
-					FeeAmount       struct {
-						Text           string `xml:",chardata"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-					} `xml:"FeeAmount"`
-					TaxAmount struct {
-						Text           string `xml:",chardata"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-					} `xml:"TaxAmount"`
-				} `xml:"SellerDealPaymentEvent"`
-			} `xml:"SellerDealPaymentEventList"`
-			DebtRecoveryEventList string `xml:"DebtRecoveryEventList"`
-			ShipmentEventList     struct {
-				Text          string `xml:",chardata"`
-				ShipmentEvent struct {
-					Text             string `xml:",chardata"`
-					ShipmentItemList struct {
-						Text         string `xml:",chardata"`
-						ShipmentItem struct {
-							Text           string `xml:",chardata"`
-							ItemChargeList struct {
-								Text            string `xml:",chardata"`
-								ChargeComponent []struct {
-									Text         string `xml:",chardata"`
-									ChargeType   string `xml:"ChargeType"`
-									ChargeAmount struct {
-										Text           string `xml:",chardata"`
-										CurrencyAmount string `xml:"CurrencyAmount"`
-										CurrencyCode   string `xml:"CurrencyCode"`
-									} `xml:"ChargeAmount"`
-								} `xml:"ChargeComponent"`
-							} `xml:"ItemChargeList"`
-							ItemFeeList struct {
-								Text         string `xml:",chardata"`
-								FeeComponent []struct {
-									Text      string `xml:",chardata"`
-									FeeType   string `xml:"FeeType"`
-									FeeAmount struct {
-										Text           string `xml:",chardata"`
-										CurrencyAmount string `xml:"CurrencyAmount"`
-										CurrencyCode   string `xml:"CurrencyCode"`
-									} `xml:"FeeAmount"`
-								} `xml:"FeeComponent"`
-							} `xml:"ItemFeeList"`
-							OrderItemId     string `xml:"OrderItemId"`
-							QuantityShipped string `xml:"QuantityShipped"`
-							SellerSKU       string `xml:"SellerSKU"`
-						} `xml:"ShipmentItem"`
-					} `xml:"ShipmentItemList"`
-					AmazonOrderId   string `xml:"AmazonOrderId"`
-					PostedDate      string `xml:"PostedDate"`
-					MarketplaceName string `xml:"MarketplaceName"`
-					SellerOrderId   string `xml:"SellerOrderId"`
-				} `xml:"ShipmentEvent"`
-			} `xml:"ShipmentEventList"`
-			AffordabilityExpenseEventList struct {
-				Text                      string `xml:",chardata"`
-				AffordabilityExpenseEvent struct {
-					Text            string `xml:",chardata"`
-					PostedDate      string `xml:"PostedDate"`
-					TransactionType string `xml:"TransactionType"`
-					AmazonOrderId   string `xml:"AmazonOrderId"`
-					MarketplaceId   string `xml:"MarketplaceId"`
-					BaseExpense     struct {
-						Text           string `xml:",chardata"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-					} `xml:"BaseExpense"`
-					TaxTypeIGST struct {
-						Text           string `xml:",chardata"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-					} `xml:"TaxTypeIGST"`
-					TaxTypeSGST struct {
-						Text           string `xml:",chardata"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-					} `xml:"TaxTypeSGST"`
-					TaxTypeCGST struct {
-						Text           string `xml:",chardata"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-					} `xml:"TaxTypeCGST"`
-					TotalExpense struct {
-						Text           string `xml:",chardata"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-					} `xml:"TotalExpense"`
-				} `xml:"AffordabilityExpenseEvent"`
-			} `xml:"AffordabilityExpenseEventList"`
-			RetrochargeEventList                  string `xml:"RetrochargeEventList"`
-			GuaranteeClaimEventList               string `xml:"GuaranteeClaimEventList"`
-			ChargebackEventList                   string `xml:"ChargebackEventList"`
-			LoanServicingEventList                string `xml:"LoanServicingEventList"`
-			RefundEventList                       string `xml:"RefundEventList"`
-			AdjustmentEventList                   string `xml:"AdjustmentEventList"`
-			PerformanceBondRefundEventList        string `xml:"PerformanceBondRefundEventList"`
-			AffordabilityExpenseReversalEventList struct {
-				Text                              string `xml:",chardata"`
-				AffordabilityExpenseReversalEvent struct {
-					Text            string `xml:",chardata"`
-					PostedDate      string `xml:"PostedDate"`
-					TransactionType string `xml:"TransactionType"`
-					AmazonOrderId   string `xml:"AmazonOrderId"`
-					MarketplaceId   string `xml:"MarketplaceId"`
-					BaseExpense     struct {
-						Text           string `xml:",chardata"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-					} `xml:"BaseExpense"`
-					TaxTypeIGST struct {
-						Text           string `xml:",chardata"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-					} `xml:"TaxTypeIGST"`
-					TaxTypeSGST struct {
-						Text           string `xml:",chardata"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-					} `xml:"TaxTypeSGST"`
-					TaxTypeCGST struct {
-						Text           string `xml:",chardata"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-					} `xml:"TaxTypeCGST"`
-					TotalExpense struct {
-						Text           string `xml:",chardata"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-					} `xml:"TotalExpense"`
-				} `xml:"AffordabilityExpenseReversalEvent"`
-			} `xml:"AffordabilityExpenseReversalEventList"`
-			TDSReimbursementEventList struct {
-				Text                  string `xml:",chardata"`
-				TDSReimbursementEvent struct {
-					Text             string `xml:",chardata"`
-					ReimbursedAmount struct {
-						Text           string `xml:",chardata"`
-						CurrencyCode   string `xml:"CurrencyCode"`
-						CurrencyAmount string `xml:"CurrencyAmount"`
-					} `xml:"ReimbursedAmount"`
-					PostedDate string `xml:"PostedDate"`
-					TdsOrderId string `xml:"TdsOrderId"`
-				} `xml:"TDSReimbursementEvent"`
-			} `xml:"TDSReimbursementEventList"`
-		} `xml:"FinancialEvents"`
+		Text            string          `xml:",chardata"`
+		FinancialEvents FinancialEvents `xml:"FinancialEvents"`
 	} `xml:"ListFinancialEventsResult"`
-	ResponseMetadata struct {
-		Text      string `xml:",chardata"`
-		RequestId string `xml:"RequestId"`
-	} `xml:"ResponseMetadata"`
+	ResponseMetadata ResponseMetadata `xml:"ResponseMetadata"`
+}
+
+// FinancialEvents ...
+type FinancialEvents struct {
+	Text                                   string              `xml:",chardata"`
+	ProductAdsPaymentEventList             string              `xml:"ProductAdsPaymentEventList"`
+	RentalTransactionEventList             string              `xml:"RentalTransactionEventList"`
+	ServiceFeeEventList                    string              `xml:"ServiceFeeEventList"`
+	ShipmentSettleEventList                string              `xml:"ShipmentSettleEventList"`
+	ServiceProviderCreditEventList         string              `xml:"ServiceProviderCreditEventList"`
+	ImagingServicesFeeEventList            string              `xml:"ImagingServicesFeeEventList"`
+	SellerDealPaymentEventList             string              `xml:"SellerDealPaymentEventList"`
+	SellerReviewEnrollmentPaymentEventList string              `xml:"SellerReviewEnrollmentPaymentEventList"`
+	DebtRecoveryEventList                  string              `xml:"DebtRecoveryEventList"`
+	ShipmentEventList                      ShipmentEventList   `xml:"ShipmentEventList"`
+	TaxWithholdingEventList                string              `xml:"TaxWithholdingEventList"`
+	GuaranteeClaimEventList                string              `xml:"GuaranteeClaimEventList"`
+	TDSReimbursementEventList              string              `xml:"TDSReimbursementEventList"`
+	ChargebackEventList                    string              `xml:"ChargebackEventList"`
+	NetworkComminglingTransactionEventList string              `xml:"NetworkComminglingTransactionEventList"`
+	LoanServicingEventList                 string              `xml:"LoanServicingEventList"`
+	RefundEventList                        string              `xml:"RefundEventList"`
+	RemovalShipmentEventList               string              `xml:"RemovalShipmentEventList"`
+	PerformanceBondRefundEventList         string              `xml:"PerformanceBondRefundEventList"`
+	AffordabilityExpenseReversalEventList  string              `xml:"AffordabilityExpenseReversalEventList"`
+	PayWithAmazonEventList                 string              `xml:"PayWithAmazonEventList"`
+	AdhocDisbursementEventList             string              `xml:"AdhocDisbursementEventList"`
+	CouponPaymentEventList                 string              `xml:"CouponPaymentEventList"`
+	ChargeRefundEventList                  string              `xml:"ChargeRefundEventList"`
+	RetrochargeEventList                   string              `xml:"RetrochargeEventList"`
+	TrialShipmentEventList                 string              `xml:"TrialShipmentEventList"`
+	SAFETReimbursementEventList            string              `xml:"SAFETReimbursementEventList"`
+	RemovalShipmentAdjustmentEventList     string              `xml:"RemovalShipmentAdjustmentEventList"`
+	FBALiquidationEventList                string              `xml:"FBALiquidationEventList"`
+	AffordabilityExpenseEventList          string              `xml:"AffordabilityExpenseEventList"`
+	AdjustmentEventList                    AdjustmentEventList `xml:"AdjustmentEventList"`
+}
+
+// AdjustmentEventList ...
+type AdjustmentEventList struct {
+	Text            string `xml:",chardata"`
+	AdjustmentEvent []struct {
+		Text               string `xml:",chardata"`
+		AdjustmentType     string `xml:"AdjustmentType"`
+		AdjustmentItemList struct {
+			Text           string `xml:",chardata"`
+			AdjustmentItem struct {
+				Text          string `xml:",chardata"`
+				PerUnitAmount struct {
+					Text           string `xml:",chardata"`
+					CurrencyAmount string `xml:"CurrencyAmount"`
+					CurrencyCode   string `xml:"CurrencyCode"`
+				} `xml:"PerUnitAmount"`
+				TotalAmount struct {
+					Text           string `xml:",chardata"`
+					CurrencyAmount string `xml:"CurrencyAmount"`
+					CurrencyCode   string `xml:"CurrencyCode"`
+				} `xml:"TotalAmount"`
+				Quantity           string `xml:"Quantity"`
+				SellerSKU          string `xml:"SellerSKU"`
+				ProductDescription string `xml:"ProductDescription"`
+			} `xml:"AdjustmentItem"`
+		} `xml:"AdjustmentItemList"`
+		AdjustmentAmount struct {
+			Text           string `xml:",chardata"`
+			CurrencyAmount string `xml:"CurrencyAmount"`
+			CurrencyCode   string `xml:"CurrencyCode"`
+		} `xml:"AdjustmentAmount"`
+		PostedDate string `xml:"PostedDate"`
+	} `xml:"AdjustmentEvent"`
+}
+
+// ShipmentEventList ...
+type ShipmentEventList struct {
+	Text          string `xml:",chardata"`
+	ShipmentEvent []struct {
+		Text             string `xml:",chardata"`
+		ShipmentItemList struct {
+			Text         string `xml:",chardata"`
+			ShipmentItem []struct {
+				Text                string `xml:",chardata"`
+				ItemTaxWithheldList struct {
+					Text                 string `xml:",chardata"`
+					TaxWithheldComponent struct {
+						Text               string `xml:",chardata"`
+						TaxCollectionModel string `xml:"TaxCollectionModel"`
+						TaxesWithheld      struct {
+							Text            string `xml:",chardata"`
+							ChargeComponent []struct {
+								Text         string `xml:",chardata"`
+								ChargeType   string `xml:"ChargeType"`
+								ChargeAmount struct {
+									Text           string `xml:",chardata"`
+									CurrencyAmount string `xml:"CurrencyAmount"`
+									CurrencyCode   string `xml:"CurrencyCode"`
+								} `xml:"ChargeAmount"`
+							} `xml:"ChargeComponent"`
+						} `xml:"TaxesWithheld"`
+					} `xml:"TaxWithheldComponent"`
+				} `xml:"ItemTaxWithheldList"`
+				ItemChargeList struct {
+					Text            string `xml:",chardata"`
+					ChargeComponent []struct {
+						Text         string `xml:",chardata"`
+						ChargeType   string `xml:"ChargeType"`
+						ChargeAmount struct {
+							Text           string `xml:",chardata"`
+							CurrencyAmount string `xml:"CurrencyAmount"`
+							CurrencyCode   string `xml:"CurrencyCode"`
+						} `xml:"ChargeAmount"`
+					} `xml:"ChargeComponent"`
+				} `xml:"ItemChargeList"`
+				ItemFeeList struct {
+					Text         string `xml:",chardata"`
+					FeeComponent []struct {
+						Text      string `xml:",chardata"`
+						FeeAmount struct {
+							Text           string `xml:",chardata"`
+							CurrencyAmount string `xml:"CurrencyAmount"`
+							CurrencyCode   string `xml:"CurrencyCode"`
+						} `xml:"FeeAmount"`
+						FeeType string `xml:"FeeType"`
+					} `xml:"FeeComponent"`
+				} `xml:"ItemFeeList"`
+				OrderItemID     string `xml:"OrderItemId"`
+				QuantityShipped string `xml:"QuantityShipped"`
+				SellerSKU       string `xml:"SellerSKU"`
+				PromotionList   struct {
+					Text      string `xml:",chardata"`
+					Promotion []struct {
+						Text            string `xml:",chardata"`
+						PromotionType   string `xml:"PromotionType"`
+						PromotionAmount struct {
+							Text           string `xml:",chardata"`
+							CurrencyAmount string `xml:"CurrencyAmount"`
+							CurrencyCode   string `xml:"CurrencyCode"`
+						} `xml:"PromotionAmount"`
+						PromotionID string `xml:"PromotionId"`
+					} `xml:"Promotion"`
+				} `xml:"PromotionList"`
+			} `xml:"ShipmentItem"`
+		} `xml:"ShipmentItemList"`
+		AmazonOrderID   string `xml:"AmazonOrderId"`
+		PostedDate      string `xml:"PostedDate"`
+		MarketplaceName string `xml:"MarketplaceName"`
+		SellerOrderID   string `xml:"SellerOrderId"`
+		ShipmentFeeList struct {
+			Text         string `xml:",chardata"`
+			FeeComponent struct {
+				Text      string `xml:",chardata"`
+				FeeAmount struct {
+					Text           string `xml:",chardata"`
+					CurrencyAmount string `xml:"CurrencyAmount"`
+					CurrencyCode   string `xml:"CurrencyCode"`
+				} `xml:"FeeAmount"`
+				FeeType string `xml:"FeeType"`
+			} `xml:"FeeComponent"`
+		} `xml:"ShipmentFeeList"`
+	} `xml:"ShipmentEvent"`
 }

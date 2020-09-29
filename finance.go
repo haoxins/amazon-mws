@@ -1,6 +1,8 @@
 package mws
 
 import (
+	"encoding/xml"
+	"errors"
 	"fmt"
 	"net/url"
 	"time"
@@ -15,14 +17,23 @@ type ListFinancialEventsParams struct {
 }
 
 // ListFinancialEvents ...
-func (seller *Seller) ListFinancialEvents(params ListFinancialEventsParams) {
+func (seller *Seller) ListFinancialEvents(params ListFinancialEventsParams) error {
 	opts := seller.genListFinancialEventsParams(params)
 
 	body, err := seller.requestFinances(opts)
 	tools.AssertError(err)
 
-	// TODO
 	fmt.Println(string(body))
+
+	data := ListFinancialEventsResponse{}
+	err = xml.Unmarshal(body, &data)
+	if err != nil {
+
+		return errors.New(string(body))
+	}
+
+	fmt.Printf("%+v", data)
+	return nil
 }
 
 func (seller *Seller) genListFinancialEventsParams(params ListFinancialEventsParams) string {
@@ -44,8 +55,8 @@ func (seller *Seller) genListFinancialEventsParams(params ListFinancialEventsPar
 	return s
 }
 
-func (seller *Seller) requestFinances(params string) ([]byte, error) {
+func (seller *Seller) requestFinances(qs string, byNextToken string) ([]byte, error) {
 	// According to the document, this should be POST
 	// But, only GET works
-	return seller.get(FinancesPath, params)
+	return seller.get(FinancesPath, qs)
 }
