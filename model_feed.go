@@ -8,10 +8,16 @@ type GetFeedSubmissionListResponse struct {
 	Text                        string                      `xml:",chardata"`
 	Xmlns                       string                      `xml:"xmlns,attr"`
 	GetFeedSubmissionListResult GetFeedSubmissionListResult `xml:"GetFeedSubmissionListResult"`
-	ResponseMetadata            struct {
-		Text      string `xml:",chardata"`
-		RequestID string `xml:"RequestId"`
-	} `xml:"ResponseMetadata"`
+	ResponseMetadata            ResponseMetadata            `xml:"ResponseMetadata"`
+}
+
+// GetFeedSubmissionListByNextTokenResponse ...
+type GetFeedSubmissionListByNextTokenResponse struct {
+	XMLName                     xml.Name                    `xml:"GetFeedSubmissionListByNextTokenResponse"`
+	Text                        string                      `xml:",chardata"`
+	Xmlns                       string                      `xml:"xmlns,attr"`
+	GetFeedSubmissionListResult GetFeedSubmissionListResult `xml:"GetFeedSubmissionListByNextTokenResult"`
+	ResponseMetadata            ResponseMetadata            `xml:"ResponseMetadata"`
 }
 
 // GetFeedSubmissionListResult ...

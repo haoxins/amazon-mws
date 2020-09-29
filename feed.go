@@ -3,7 +3,6 @@ package mws
 import (
 	"encoding/xml"
 	"fmt"
-	"log"
 	"net/url"
 	"time"
 
@@ -23,7 +22,7 @@ type GetFeedSubmissionListParams struct {
 func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) []FeedSubmissionInfo {
 	opts := seller.genGetFeedSubmissionListParams(params, "")
 
-	result := seller.requestFeed(opts)
+	result := seller.requestFeed(opts, false)
 
 	var feeds []FeedSubmissionInfo
 
@@ -44,7 +43,7 @@ func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) 
 func (seller *Seller) getFeedSubmissionListByNextToken(nextToken string) GetFeedSubmissionListResult {
 	opts := seller.genGetFeedSubmissionListParams(GetFeedSubmissionListParams{}, nextToken)
 
-	result := seller.requestFeed(opts)
+	result := seller.requestFeed(opts, true)
 
 	return result
 }
@@ -78,20 +77,30 @@ func (seller *Seller) genGetFeedSubmissionListParams(params GetFeedSubmissionLis
 	return s
 }
 
-func (seller *Seller) requestFeed(params string) GetFeedSubmissionListResult {
+func (seller *Seller) requestFeed(qs string, byNextToken bool) GetFeedSubmissionListResult {
 	// According to the document, this should be POST
 	// But, only GET works
-	body, err := seller.get(FeedsPath, params)
+	body, err := seller.get(FeedsPath, qs)
 	tools.AssertError(err)
 
 	// TODO - Remove this
 	fmt.Println(string(body))
 
+	if byNextToken {
+		data := GetFeedSubmissionListByNextTokenResponse{}
+		err = xml.Unmarshal(body, &data)
+
+		if err != nil {
+			return GetFeedSubmissionListResult{}
+		}
+
+		return data.GetFeedSubmissionListResult
+	}
+
 	data := GetFeedSubmissionListResponse{}
 	err = xml.Unmarshal(body, &data)
+
 	if err != nil {
-		// TODO
-		log.Println(string(body))
 		return GetFeedSubmissionListResult{}
 	}
 
