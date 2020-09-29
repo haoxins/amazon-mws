@@ -2,6 +2,7 @@ package mws
 
 import (
 	"encoding/xml"
+	"errors"
 	"net/url"
 	"time"
 
@@ -20,10 +21,10 @@ type GetFeedSubmissionListParams struct {
 // 10 requests           One request every 45 seconds 80 requests per hour
 func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) []FeedSubmissionInfo {
 	opts := seller.genGetFeedSubmissionListParams(params, "")
-
-	result := seller.requestFeed(opts, false)
-
 	var feeds []FeedSubmissionInfo
+
+	result, err := seller.requestFeed(opts, false)
+	tools.AssertError(err)
 
 	feeds = append(feeds, result.FeedSubmissionInfo...)
 
@@ -42,7 +43,8 @@ func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) 
 func (seller *Seller) getFeedSubmissionListByNextToken(nextToken string) GetFeedSubmissionListResult {
 	opts := seller.genGetFeedSubmissionListParams(GetFeedSubmissionListParams{}, nextToken)
 
-	result := seller.requestFeed(opts, true)
+	result, err := seller.requestFeed(opts, true)
+	tools.AssertError(err)
 
 	return result
 }
@@ -76,7 +78,7 @@ func (seller *Seller) genGetFeedSubmissionListParams(params GetFeedSubmissionLis
 	return s
 }
 
-func (seller *Seller) requestFeed(qs string, byNextToken bool) GetFeedSubmissionListResult {
+func (seller *Seller) requestFeed(qs string, byNextToken bool) (GetFeedSubmissionListResult, error) {
 	// According to the document, this should be POST
 	// But, only GET works
 	body, err := seller.get(FeedsPath, qs)
@@ -87,18 +89,18 @@ func (seller *Seller) requestFeed(qs string, byNextToken bool) GetFeedSubmission
 		err = xml.Unmarshal(body, &data)
 
 		if err != nil {
-			return GetFeedSubmissionListResult{}
+			return data.GetFeedSubmissionListResult, errors.New(string(body))
 		}
 
-		return data.GetFeedSubmissionListResult
+		return data.GetFeedSubmissionListResult, nil
 	}
 
 	data := GetFeedSubmissionListResponse{}
 	err = xml.Unmarshal(body, &data)
 
 	if err != nil {
-		return GetFeedSubmissionListResult{}
+		return data.GetFeedSubmissionListResult, errors.New(string(body))
 	}
 
-	return data.GetFeedSubmissionListResult
+	return data.GetFeedSubmissionListResult, nil
 }
