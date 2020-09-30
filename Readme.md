@@ -1,5 +1,5 @@
 
-[![PkgGoDev](https://pkg.go.dev/badge/pkg4go/amazon-mws)](https://pkg.go.dev/pkg4go/amazon-mws)
+[![PkgGoDev](https://pkg.go.dev/badge/haoxins/amazon-mws)](https://pkg.go.dev/haoxins/amazon-mws)
 
 ## Amazon MWS SDKs
 
