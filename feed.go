@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/pkg4go/tools"
+	"github.com/haoxins/tools/v2"
 )
 
 // GetFeedSubmissionListParams MWS GetFeedSubmissionList API params

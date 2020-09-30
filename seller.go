@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	resty "github.com/go-resty/resty/v2"
-	"github.com/pkg4go/tools"
+	"github.com/haoxins/tools/v2"
 )
 
 // Seller The seller info
