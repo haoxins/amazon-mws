@@ -41,7 +41,7 @@ func (seller *Seller) ListInboundShipments(params ListInboundShipmentsParams) []
 	result, err := seller.requestInboundShipment(opts, false)
 	tools.AssertError(err)
 
-	members = append(members, result.ShipmentData.Member...)
+	members = append(members, result.ShipmentData.Members...)
 
 	for {
 		if result.NextToken == "" {
@@ -49,7 +49,7 @@ func (seller *Seller) ListInboundShipments(params ListInboundShipmentsParams) []
 		}
 
 		result = seller.listInboundShipmentsByNextToken(result.NextToken)
-		members = append(members, result.ShipmentData.Member...)
+		members = append(members, result.ShipmentData.Members...)
 	}
 
 	return members

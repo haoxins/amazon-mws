@@ -47,7 +47,7 @@ func (seller *Seller) GetAllReportIds(startTime time.Time, endTime time.Time) []
 
 	for {
 		result := seller.GetReportList(startTime, endTime, nextToken)
-		for _, v := range result.ReportInfo {
+		for _, v := range result.ReportInfos {
 			ids = append(ids, v.ReportID)
 		}
 
