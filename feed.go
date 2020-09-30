@@ -26,7 +26,7 @@ func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) 
 	result, err := seller.requestFeed(opts, false)
 	tools.AssertError(err)
 
-	feeds = append(feeds, result.FeedSubmissionInfo...)
+	feeds = append(feeds, result.FeedSubmissionInfos...)
 
 	for {
 		if !result.HasNext {
@@ -34,7 +34,7 @@ func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) 
 		}
 
 		result = seller.getFeedSubmissionListByNextToken(result.NextToken)
-		feeds = append(feeds, result.FeedSubmissionInfo...)
+		feeds = append(feeds, result.FeedSubmissionInfos...)
 	}
 
 	return feeds

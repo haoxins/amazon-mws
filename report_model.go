@@ -25,7 +25,7 @@ type GetReportListResult struct {
 	Text       string                `xml:",chardata"`
 	NextToken  string                `xml:"NextToken"`
 	HasNext    bool                  `xml:"HasNext"`
-	ReportInfo []SingleReportInfoRow `xml:"ReportInfo"`
+	ReportInfos []SingleReportInfoRow `xml:"ReportInfo"`
 }
 
 // SingleReportInfoRow The report info row
