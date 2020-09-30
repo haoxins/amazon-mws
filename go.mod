@@ -1,4 +1,4 @@
-module github.com/pkg4go/amazon-mws
+module github.com/pkg4go/amazon-mws/v2
 
 go 1.15
 
