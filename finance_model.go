@@ -136,16 +136,7 @@ type ShipmentEventList struct {
 				SellerSKU       string `xml:"SellerSKU"`
 				PromotionList   struct {
 					Text      string `xml:",chardata"`
-					Promotion []struct {
-						Text            string `xml:",chardata"`
-						PromotionType   string `xml:"PromotionType"`
-						PromotionAmount struct {
-							Text           string `xml:",chardata"`
-							CurrencyAmount string `xml:"CurrencyAmount"`
-							CurrencyCode   string `xml:"CurrencyCode"`
-						} `xml:"PromotionAmount"`
-						PromotionID string `xml:"PromotionId"`
-					} `xml:"Promotion"`
+					Promotion []Promotion `xml:"Promotion"`
 				} `xml:"PromotionList"`
 			} `xml:"ShipmentItem"`
 		} `xml:"ShipmentItemList"`
@@ -288,4 +279,16 @@ type FeeComponent struct {
 		CurrencyAmount string `xml:"CurrencyAmount"`
 		CurrencyCode   string `xml:"CurrencyCode"`
 	} `xml:"FeeAmount"`
+}
+
+// Promotion ...
+type Promotion struct {
+	Text            string `xml:",chardata"`
+	PromotionType   string `xml:"PromotionType"`
+	PromotionAmount struct {
+		Text           string `xml:",chardata"`
+		CurrencyAmount string `xml:"CurrencyAmount"`
+		CurrencyCode   string `xml:"CurrencyCode"`
+	} `xml:"PromotionAmount"`
+	PromotionID string `xml:"PromotionId"`
 }
