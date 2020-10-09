@@ -97,16 +97,8 @@ type ServiceFeeEventList struct {
 		FeeReason     string `xml:"FeeReason"`
 		AmazonOrderID string `xml:"AmazonOrderId"`
 		FeeList       struct {
-			Text         string `xml:",chardata"`
-			FeeComponent []struct {
-				Text      string `xml:",chardata"`
-				FeeAmount struct {
-					Text           string `xml:",chardata"`
-					CurrencyAmount string `xml:"CurrencyAmount"`
-					CurrencyCode   string `xml:"CurrencyCode"`
-				} `xml:"FeeAmount"`
-				FeeType string `xml:"FeeType"`
-			} `xml:"FeeComponent"`
+			Text         string         `xml:",chardata"`
+			FeeComponent []FeeComponent `xml:"FeeComponent"`
 		} `xml:"FeeList"`
 	} `xml:"ServiceFeeEvent"`
 }
@@ -136,16 +128,8 @@ type ShipmentEventList struct {
 					ChargeComponent []ChargeComponent `xml:"ChargeComponent"`
 				} `xml:"ItemChargeList"`
 				ItemFeeList struct {
-					Text         string `xml:",chardata"`
-					FeeComponent []struct {
-						Text      string `xml:",chardata"`
-						FeeAmount struct {
-							Text           string `xml:",chardata"`
-							CurrencyAmount string `xml:"CurrencyAmount"`
-							CurrencyCode   string `xml:"CurrencyCode"`
-						} `xml:"FeeAmount"`
-						FeeType string `xml:"FeeType"`
-					} `xml:"FeeComponent"`
+					Text         string         `xml:",chardata"`
+					FeeComponent []FeeComponent `xml:"FeeComponent"`
 				} `xml:"ItemFeeList"`
 				OrderItemID     string `xml:"OrderItemId"`
 				QuantityShipped string `xml:"QuantityShipped"`
@@ -170,16 +154,8 @@ type ShipmentEventList struct {
 		MarketplaceName string `xml:"MarketplaceName"`
 		SellerOrderID   string `xml:"SellerOrderId"`
 		ShipmentFeeList struct {
-			Text         string `xml:",chardata"`
-			FeeComponent struct {
-				Text      string `xml:",chardata"`
-				FeeAmount struct {
-					Text           string `xml:",chardata"`
-					CurrencyAmount string `xml:"CurrencyAmount"`
-					CurrencyCode   string `xml:"CurrencyCode"`
-				} `xml:"FeeAmount"`
-				FeeType string `xml:"FeeType"`
-			} `xml:"FeeComponent"`
+			Text         string       `xml:",chardata"`
+			FeeComponent FeeComponent `xml:"FeeComponent"`
 		} `xml:"ShipmentFeeList"`
 	} `xml:"ShipmentEvent"`
 }
@@ -207,16 +183,8 @@ type RefundEventList struct {
 					} `xml:"TaxWithheldComponent"`
 				} `xml:"ItemTaxWithheldList"`
 				ItemFeeAdjustmentList struct {
-					Text         string `xml:",chardata"`
-					FeeComponent []struct {
-						Text      string `xml:",chardata"`
-						FeeAmount struct {
-							Text           string `xml:",chardata"`
-							CurrencyAmount string `xml:"CurrencyAmount"`
-							CurrencyCode   string `xml:"CurrencyCode"`
-						} `xml:"FeeAmount"`
-						FeeType string `xml:"FeeType"`
-					} `xml:"FeeComponent"`
+					Text         string         `xml:",chardata"`
+					FeeComponent []FeeComponent `xml:"FeeComponent"`
 				} `xml:"ItemFeeAdjustmentList"`
 				OrderAdjustmentItemID    string `xml:"OrderAdjustmentItemId"`
 				QuantityShipped          string `xml:"QuantityShipped"`
@@ -256,21 +224,13 @@ type CouponPaymentEventList struct {
 			CurrencyAmount string `xml:"CurrencyAmount"`
 			CurrencyCode   string `xml:"CurrencyCode"`
 		} `xml:"TotalAmount"`
-		PaymentEventID          string `xml:"PaymentEventId"`
-		SellerCouponDescription string `xml:"SellerCouponDescription"`
-		FeeComponent            struct {
-			Text      string `xml:",chardata"`
-			FeeAmount struct {
-				Text           string `xml:",chardata"`
-				CurrencyAmount string `xml:"CurrencyAmount"`
-				CurrencyCode   string `xml:"CurrencyCode"`
-			} `xml:"FeeAmount"`
-			FeeType string `xml:"FeeType"`
-		} `xml:"FeeComponent"`
-		ChargeComponent       ChargeComponent `xml:"ChargeComponent"`
-		CouponID              string          `xml:"CouponId"`
-		ClipOrRedemptionCount string          `xml:"ClipOrRedemptionCount"`
-		PostedDate            string          `xml:"PostedDate"`
+		PaymentEventID          string          `xml:"PaymentEventId"`
+		SellerCouponDescription string          `xml:"SellerCouponDescription"`
+		FeeComponent            FeeComponent    `xml:"FeeComponent"`
+		ChargeComponent         ChargeComponent `xml:"ChargeComponent"`
+		CouponID                string          `xml:"CouponId"`
+		ClipOrRedemptionCount   string          `xml:"ClipOrRedemptionCount"`
+		PostedDate              string          `xml:"PostedDate"`
 	} `xml:"CouponPaymentEvent"`
 }
 
@@ -317,4 +277,15 @@ type ChargeComponent struct {
 		CurrencyAmount string `xml:"CurrencyAmount"`
 		CurrencyCode   string `xml:"CurrencyCode"`
 	} `xml:"ChargeAmount"`
+}
+
+// FeeComponent ...
+type FeeComponent struct {
+	Text      string `xml:",chardata"`
+	FeeType   string `xml:"FeeType"`
+	FeeAmount struct {
+		Text           string `xml:",chardata"`
+		CurrencyAmount string `xml:"CurrencyAmount"`
+		CurrencyCode   string `xml:"CurrencyCode"`
+	} `xml:"FeeAmount"`
 }
