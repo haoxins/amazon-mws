@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"sort"
 	"strings"
+	"time"
 
 	resty "github.com/go-resty/resty/v2"
 	"github.com/haoxins/tools/v2"
@@ -47,7 +48,7 @@ func (seller *Seller) addSignature(method string, path string, payload string) s
 func (seller *Seller) get(path string, payload string) ([]byte, error) {
 	payload = seller.addSignature("GET", path, payload)
 
-	h := resty.New()
+	h := resty.New().SetTimeout(5 * time.Minute)
 	res, err := h.R().
 		SetHeader("Content-Type", "x-www-form-urlencoded").
 		Get(Endpoint[seller.Country] + path + "?" + payload)
@@ -62,7 +63,7 @@ func (seller *Seller) get(path string, payload string) ([]byte, error) {
 func (seller *Seller) post(path string, payload string) ([]byte, error) {
 	payload = seller.addSignature("POST", path, payload)
 
-	h := resty.New()
+	h := resty.New().SetTimeout(5 * time.Minute)
 	res, err := h.R().
 		SetHeader("Content-Type", "x-www-form-urlencoded").
 		SetBody([]byte(payload)).
