@@ -109,36 +109,8 @@ type ShipmentEventList struct {
 	ShipmentEvent []struct {
 		Text             string `xml:",chardata"`
 		ShipmentItemList struct {
-			Text         string `xml:",chardata"`
-			ShipmentItem []struct {
-				Text                string `xml:",chardata"`
-				ItemTaxWithheldList struct {
-					Text                 string `xml:",chardata"`
-					TaxWithheldComponent struct {
-						Text               string `xml:",chardata"`
-						TaxCollectionModel string `xml:"TaxCollectionModel"`
-						TaxesWithheld      struct {
-							Text            string            `xml:",chardata"`
-							ChargeComponent []ChargeComponent `xml:"ChargeComponent"`
-						} `xml:"TaxesWithheld"`
-					} `xml:"TaxWithheldComponent"`
-				} `xml:"ItemTaxWithheldList"`
-				ItemChargeList struct {
-					Text            string            `xml:",chardata"`
-					ChargeComponent []ChargeComponent `xml:"ChargeComponent"`
-				} `xml:"ItemChargeList"`
-				ItemFeeList struct {
-					Text         string         `xml:",chardata"`
-					FeeComponent []FeeComponent `xml:"FeeComponent"`
-				} `xml:"ItemFeeList"`
-				OrderItemID     string `xml:"OrderItemId"`
-				QuantityShipped string `xml:"QuantityShipped"`
-				SellerSKU       string `xml:"SellerSKU"`
-				PromotionList   struct {
-					Text      string      `xml:",chardata"`
-					Promotion []Promotion `xml:"Promotion"`
-				} `xml:"PromotionList"`
-			} `xml:"ShipmentItem"`
+			Text         string         `xml:",chardata"`
+			ShipmentItem []ShipmentItem `xml:"ShipmentItem"`
 		} `xml:"ShipmentItemList"`
 		AmazonOrderID   string `xml:"AmazonOrderId"`
 		PostedDate      string `xml:"PostedDate"`
@@ -159,36 +131,8 @@ type RefundEventList struct {
 		AmazonOrderID              string `xml:"AmazonOrderId"`
 		PostedDate                 string `xml:"PostedDate"`
 		ShipmentItemAdjustmentList struct {
-			Text         string `xml:",chardata"`
-			ShipmentItem []struct {
-				Text                string `xml:",chardata"`
-				ItemTaxWithheldList struct {
-					Text                 string `xml:",chardata"`
-					TaxWithheldComponent struct {
-						Text               string `xml:",chardata"`
-						TaxCollectionModel string `xml:"TaxCollectionModel"`
-						TaxesWithheld      struct {
-							Text            string            `xml:",chardata"`
-							ChargeComponent []ChargeComponent `xml:"ChargeComponent"`
-						} `xml:"TaxesWithheld"`
-					} `xml:"TaxWithheldComponent"`
-				} `xml:"ItemTaxWithheldList"`
-				ItemFeeAdjustmentList struct {
-					Text         string         `xml:",chardata"`
-					FeeComponent []FeeComponent `xml:"FeeComponent"`
-				} `xml:"ItemFeeAdjustmentList"`
-				OrderAdjustmentItemID    string `xml:"OrderAdjustmentItemId"`
-				QuantityShipped          string `xml:"QuantityShipped"`
-				ItemChargeAdjustmentList struct {
-					Text            string            `xml:",chardata"`
-					ChargeComponent []ChargeComponent `xml:"ChargeComponent"`
-				} `xml:"ItemChargeAdjustmentList"`
-				SellerSKU               string `xml:"SellerSKU"`
-				PromotionAdjustmentList struct {
-					Text      string      `xml:",chardata"`
-					Promotion []Promotion `xml:"Promotion"`
-				} `xml:"PromotionAdjustmentList"`
-			} `xml:"ShipmentItem"`
+			Text         string                   `xml:",chardata"`
+			ShipmentItem []ShipmentItemAdjustment `xml:"ShipmentItem"`
 		} `xml:"ShipmentItemAdjustmentList"`
 		MarketplaceName string `xml:"MarketplaceName"`
 		SellerOrderID   string `xml:"SellerOrderId"`
@@ -281,4 +225,59 @@ type Promotion struct {
 		CurrencyCode   string `xml:"CurrencyCode"`
 	} `xml:"PromotionAmount"`
 	PromotionID string `xml:"PromotionId"`
+}
+
+// ItemTaxWithheldList ...
+type ItemTaxWithheldList struct {
+	Text                 string `xml:",chardata"`
+	TaxWithheldComponent struct {
+		Text               string `xml:",chardata"`
+		TaxCollectionModel string `xml:"TaxCollectionModel"`
+		TaxesWithheld      struct {
+			Text            string            `xml:",chardata"`
+			ChargeComponent []ChargeComponent `xml:"ChargeComponent"`
+		} `xml:"TaxesWithheld"`
+	} `xml:"TaxWithheldComponent"`
+}
+
+// ShipmentItem ...
+type ShipmentItem struct {
+	Text                string              `xml:",chardata"`
+	ItemTaxWithheldList ItemTaxWithheldList `xml:"ItemTaxWithheldList"`
+	ItemChargeList      struct {
+		Text            string            `xml:",chardata"`
+		ChargeComponent []ChargeComponent `xml:"ChargeComponent"`
+	} `xml:"ItemChargeList"`
+	ItemFeeList struct {
+		Text         string         `xml:",chardata"`
+		FeeComponent []FeeComponent `xml:"FeeComponent"`
+	} `xml:"ItemFeeList"`
+	OrderItemID     string `xml:"OrderItemId"`
+	QuantityShipped string `xml:"QuantityShipped"`
+	SellerSKU       string `xml:"SellerSKU"`
+	PromotionList   struct {
+		Text      string      `xml:",chardata"`
+		Promotion []Promotion `xml:"Promotion"`
+	} `xml:"PromotionList"`
+}
+
+// ShipmentItemAdjustment ...
+type ShipmentItemAdjustment struct {
+	Text                  string              `xml:",chardata"`
+	ItemTaxWithheldList   ItemTaxWithheldList `xml:"ItemTaxWithheldList"`
+	ItemFeeAdjustmentList struct {
+		Text         string         `xml:",chardata"`
+		FeeComponent []FeeComponent `xml:"FeeComponent"`
+	} `xml:"ItemFeeAdjustmentList"`
+	OrderAdjustmentItemID    string `xml:"OrderAdjustmentItemId"`
+	QuantityShipped          string `xml:"QuantityShipped"`
+	ItemChargeAdjustmentList struct {
+		Text            string            `xml:",chardata"`
+		ChargeComponent []ChargeComponent `xml:"ChargeComponent"`
+	} `xml:"ItemChargeAdjustmentList"`
+	SellerSKU               string `xml:"SellerSKU"`
+	PromotionAdjustmentList struct {
+		Text      string      `xml:",chardata"`
+		Promotion []Promotion `xml:"Promotion"`
+	} `xml:"PromotionAdjustmentList"`
 }
