@@ -66,7 +66,7 @@ type FinancialEvents struct {
 // ProductAdsPaymentEventList ...
 type ProductAdsPaymentEventList struct {
 	Text                   string `xml:",chardata"`
-	ProductAdsPaymentEvent struct {
+	ProductAdsPaymentEvent []struct {
 		Text            string `xml:",chardata"`
 		TransactionType string `xml:"transactionType"`
 		BaseValue       struct {
@@ -92,7 +92,7 @@ type ProductAdsPaymentEventList struct {
 // ServiceFeeEventList ...
 type ServiceFeeEventList struct {
 	Text            string `xml:",chardata"`
-	ServiceFeeEvent struct {
+	ServiceFeeEvent []struct {
 		Text          string `xml:",chardata"`
 		FeeReason     string `xml:"FeeReason"`
 		AmazonOrderID string `xml:"AmazonOrderId"`
@@ -145,8 +145,8 @@ type ShipmentEventList struct {
 		MarketplaceName string `xml:"MarketplaceName"`
 		SellerOrderID   string `xml:"SellerOrderId"`
 		ShipmentFeeList struct {
-			Text         string       `xml:",chardata"`
-			FeeComponent FeeComponent `xml:"FeeComponent"`
+			Text         string         `xml:",chardata"`
+			FeeComponent []FeeComponent `xml:"FeeComponent"`
 		} `xml:"ShipmentFeeList"`
 	} `xml:"ShipmentEvent"`
 }
@@ -160,7 +160,7 @@ type RefundEventList struct {
 		PostedDate                 string `xml:"PostedDate"`
 		ShipmentItemAdjustmentList struct {
 			Text         string `xml:",chardata"`
-			ShipmentItem struct {
+			ShipmentItem []struct {
 				Text                string `xml:",chardata"`
 				ItemTaxWithheldList struct {
 					Text                 string `xml:",chardata"`
@@ -168,7 +168,7 @@ type RefundEventList struct {
 						Text               string `xml:",chardata"`
 						TaxCollectionModel string `xml:"TaxCollectionModel"`
 						TaxesWithheld      struct {
-							Text            string          `xml:",chardata"`
+							Text            string            `xml:",chardata"`
 							ChargeComponent []ChargeComponent `xml:"ChargeComponent"`
 						} `xml:"TaxesWithheld"`
 					} `xml:"TaxWithheldComponent"`
@@ -223,7 +223,7 @@ type AdjustmentEventList struct {
 		AdjustmentType     string `xml:"AdjustmentType"`
 		AdjustmentItemList struct {
 			Text           string `xml:",chardata"`
-			AdjustmentItem struct {
+			AdjustmentItem []struct {
 				Text          string `xml:",chardata"`
 				PerUnitAmount struct {
 					Text           string `xml:",chardata"`
