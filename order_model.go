@@ -13,15 +13,15 @@ type ListOrdersResponse struct {
 
 // ListOrdersResult ...
 type ListOrdersResult struct {
-	Text      string `xml:",chardata"`
-	NextToken string `xml:"NextToken"`
-	Orders   OrderList `xml:"Orders"`
-	LastUpdatedBefore string `xml:"LastUpdatedBefore"`
+	Text              string    `xml:",chardata"`
+	NextToken         string    `xml:"NextToken"`
+	Orders            OrderList `xml:"Orders"`
+	LastUpdatedBefore string    `xml:"LastUpdatedBefore"`
 }
 
 // OrderList ...
 type OrderList struct {
-	Text  string      `xml:",chardata"`
+	Text   string      `xml:",chardata"`
 	Orders []OrderInfo `xml:"Order"`
 }
 
