@@ -135,7 +135,7 @@ type ShipmentEventList struct {
 				QuantityShipped string `xml:"QuantityShipped"`
 				SellerSKU       string `xml:"SellerSKU"`
 				PromotionList   struct {
-					Text      string `xml:",chardata"`
+					Text      string      `xml:",chardata"`
 					Promotion []Promotion `xml:"Promotion"`
 				} `xml:"PromotionList"`
 			} `xml:"ShipmentItem"`
@@ -185,17 +185,8 @@ type RefundEventList struct {
 				} `xml:"ItemChargeAdjustmentList"`
 				SellerSKU               string `xml:"SellerSKU"`
 				PromotionAdjustmentList struct {
-					Text      string `xml:",chardata"`
-					Promotion []struct {
-						Text            string `xml:",chardata"`
-						PromotionType   string `xml:"PromotionType"`
-						PromotionAmount struct {
-							Text           string `xml:",chardata"`
-							CurrencyAmount string `xml:"CurrencyAmount"`
-							CurrencyCode   string `xml:"CurrencyCode"`
-						} `xml:"PromotionAmount"`
-						PromotionID string `xml:"PromotionId"`
-					} `xml:"Promotion"`
+					Text      string      `xml:",chardata"`
+					Promotion []Promotion `xml:"Promotion"`
 				} `xml:"PromotionAdjustmentList"`
 			} `xml:"ShipmentItem"`
 		} `xml:"ShipmentItemAdjustmentList"`
