@@ -154,7 +154,7 @@ type ShipmentEventList struct {
 // RefundEventList ...
 type RefundEventList struct {
 	Text          string `xml:",chardata"`
-	ShipmentEvent struct {
+	ShipmentEvent []struct {
 		Text                       string `xml:",chardata"`
 		AmazonOrderID              string `xml:"AmazonOrderId"`
 		PostedDate                 string `xml:"PostedDate"`
@@ -169,7 +169,7 @@ type RefundEventList struct {
 						TaxCollectionModel string `xml:"TaxCollectionModel"`
 						TaxesWithheld      struct {
 							Text            string          `xml:",chardata"`
-							ChargeComponent ChargeComponent `xml:"ChargeComponent"`
+							ChargeComponent []ChargeComponent `xml:"ChargeComponent"`
 						} `xml:"TaxesWithheld"`
 					} `xml:"TaxWithheldComponent"`
 				} `xml:"ItemTaxWithheldList"`
@@ -190,7 +190,6 @@ type RefundEventList struct {
 				} `xml:"PromotionAdjustmentList"`
 			} `xml:"ShipmentItem"`
 		} `xml:"ShipmentItemAdjustmentList"`
-
 		MarketplaceName string `xml:"MarketplaceName"`
 		SellerOrderID   string `xml:"SellerOrderId"`
 	} `xml:"ShipmentEvent"`
