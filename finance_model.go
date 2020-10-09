@@ -29,38 +29,86 @@ type ListFinancialEventsResult struct {
 
 // FinancialEvents ...
 type FinancialEvents struct {
-	Text                                   string                `xml:",chardata"`
-	ProductAdsPaymentEventList             string                `xml:"ProductAdsPaymentEventList"`
-	RentalTransactionEventList             string                `xml:"RentalTransactionEventList"`
-	ServiceFeeEventList                    string                `xml:"ServiceFeeEventList"`
-	ShipmentSettleEventList                string                `xml:"ShipmentSettleEventList"`
-	ServiceProviderCreditEventList         string                `xml:"ServiceProviderCreditEventList"`
-	ImagingServicesFeeEventList            string                `xml:"ImagingServicesFeeEventList"`
-	SellerDealPaymentEventList             string                `xml:"SellerDealPaymentEventList"`
-	SellerReviewEnrollmentPaymentEventList string                `xml:"SellerReviewEnrollmentPaymentEventList"`
-	DebtRecoveryEventList                  string                `xml:"DebtRecoveryEventList"`
-	ShipmentEventList                      []ShipmentEventList   `xml:"ShipmentEventList"`
-	TaxWithholdingEventList                string                `xml:"TaxWithholdingEventList"`
-	GuaranteeClaimEventList                string                `xml:"GuaranteeClaimEventList"`
-	TDSReimbursementEventList              string                `xml:"TDSReimbursementEventList"`
-	ChargebackEventList                    string                `xml:"ChargebackEventList"`
-	NetworkComminglingTransactionEventList string                `xml:"NetworkComminglingTransactionEventList"`
-	LoanServicingEventList                 string                `xml:"LoanServicingEventList"`
-	RefundEventList                        []RefundEventList     `xml:"RefundEventList"`
-	RemovalShipmentEventList               string                `xml:"RemovalShipmentEventList"`
-	PerformanceBondRefundEventList         string                `xml:"PerformanceBondRefundEventList"`
-	AffordabilityExpenseReversalEventList  string                `xml:"AffordabilityExpenseReversalEventList"`
-	PayWithAmazonEventList                 string                `xml:"PayWithAmazonEventList"`
-	AdhocDisbursementEventList             string                `xml:"AdhocDisbursementEventList"`
-	CouponPaymentEventList                 string                `xml:"CouponPaymentEventList"`
-	ChargeRefundEventList                  string                `xml:"ChargeRefundEventList"`
-	RetrochargeEventList                   string                `xml:"RetrochargeEventList"`
-	TrialShipmentEventList                 string                `xml:"TrialShipmentEventList"`
-	SAFETReimbursementEventList            string                `xml:"SAFETReimbursementEventList"`
-	RemovalShipmentAdjustmentEventList     string                `xml:"RemovalShipmentAdjustmentEventList"`
-	FBALiquidationEventList                string                `xml:"FBALiquidationEventList"`
-	AffordabilityExpenseEventList          string                `xml:"AffordabilityExpenseEventList"`
-	AdjustmentEventList                    []AdjustmentEventList `xml:"AdjustmentEventList"`
+	Text                                   string                     `xml:",chardata"`
+	ProductAdsPaymentEventList             ProductAdsPaymentEventList `xml:"ProductAdsPaymentEventList"`
+	RentalTransactionEventList             string                     `xml:"RentalTransactionEventList"`
+	ServiceFeeEventList                    ServiceFeeEventList        `xml:"ServiceFeeEventList"`
+	ShipmentSettleEventList                string                     `xml:"ShipmentSettleEventList"`
+	ServiceProviderCreditEventList         string                     `xml:"ServiceProviderCreditEventList"`
+	ImagingServicesFeeEventList            string                     `xml:"ImagingServicesFeeEventList"`
+	SellerDealPaymentEventList             string                     `xml:"SellerDealPaymentEventList"`
+	SellerReviewEnrollmentPaymentEventList string                     `xml:"SellerReviewEnrollmentPaymentEventList"`
+	DebtRecoveryEventList                  string                     `xml:"DebtRecoveryEventList"`
+	ShipmentEventList                      ShipmentEventList          `xml:"ShipmentEventList"`
+	TaxWithholdingEventList                string                     `xml:"TaxWithholdingEventList"`
+	GuaranteeClaimEventList                string                     `xml:"GuaranteeClaimEventList"`
+	TDSReimbursementEventList              string                     `xml:"TDSReimbursementEventList"`
+	ChargebackEventList                    string                     `xml:"ChargebackEventList"`
+	NetworkComminglingTransactionEventList string                     `xml:"NetworkComminglingTransactionEventList"`
+	LoanServicingEventList                 string                     `xml:"LoanServicingEventList"`
+	RefundEventList                        RefundEventList            `xml:"RefundEventList"`
+	RemovalShipmentEventList               string                     `xml:"RemovalShipmentEventList"`
+	PerformanceBondRefundEventList         string                     `xml:"PerformanceBondRefundEventList"`
+	AffordabilityExpenseReversalEventList  string                     `xml:"AffordabilityExpenseReversalEventList"`
+	PayWithAmazonEventList                 string                     `xml:"PayWithAmazonEventList"`
+	AdhocDisbursementEventList             string                     `xml:"AdhocDisbursementEventList"`
+	CouponPaymentEventList                 CouponPaymentEventList     `xml:"CouponPaymentEventList"`
+	ChargeRefundEventList                  string                     `xml:"ChargeRefundEventList"`
+	RetrochargeEventList                   string                     `xml:"RetrochargeEventList"`
+	TrialShipmentEventList                 string                     `xml:"TrialShipmentEventList"`
+	SAFETReimbursementEventList            string                     `xml:"SAFETReimbursementEventList"`
+	RemovalShipmentAdjustmentEventList     string                     `xml:"RemovalShipmentAdjustmentEventList"`
+	FBALiquidationEventList                string                     `xml:"FBALiquidationEventList"`
+	AffordabilityExpenseEventList          string                     `xml:"AffordabilityExpenseEventList"`
+	AdjustmentEventList                    AdjustmentEventList        `xml:"AdjustmentEventList"`
+}
+
+// ProductAdsPaymentEventList ...
+type ProductAdsPaymentEventList struct {
+	Text                   string `xml:",chardata"`
+	ProductAdsPaymentEvent struct {
+		Text            string `xml:",chardata"`
+		TransactionType string `xml:"transactionType"`
+		BaseValue       struct {
+			Text           string `xml:",chardata"`
+			CurrencyAmount string `xml:"CurrencyAmount"`
+			CurrencyCode   string `xml:"CurrencyCode"`
+		} `xml:"baseValue"`
+		TaxValue struct {
+			Text           string `xml:",chardata"`
+			CurrencyAmount string `xml:"CurrencyAmount"`
+			CurrencyCode   string `xml:"CurrencyCode"`
+		} `xml:"taxValue"`
+		InvoiceID        string `xml:"invoiceId"`
+		TransactionValue struct {
+			Text           string `xml:",chardata"`
+			CurrencyAmount string `xml:"CurrencyAmount"`
+			CurrencyCode   string `xml:"CurrencyCode"`
+		} `xml:"transactionValue"`
+		PostedDate string `xml:"postedDate"`
+	} `xml:"ProductAdsPaymentEvent"`
+}
+
+// ServiceFeeEventList ...
+type ServiceFeeEventList struct {
+	Text            string `xml:",chardata"`
+	ServiceFeeEvent struct {
+		Text          string `xml:",chardata"`
+		FeeReason     string `xml:"FeeReason"`
+		AmazonOrderID string `xml:"AmazonOrderId"`
+		FeeList       struct {
+			Text         string `xml:",chardata"`
+			FeeComponent []struct {
+				Text      string `xml:",chardata"`
+				FeeAmount struct {
+					Text           string `xml:",chardata"`
+					CurrencyAmount string `xml:"CurrencyAmount"`
+					CurrencyCode   string `xml:"CurrencyCode"`
+				} `xml:"FeeAmount"`
+				FeeType string `xml:"FeeType"`
+			} `xml:"FeeComponent"`
+		} `xml:"FeeList"`
+	} `xml:"ServiceFeeEvent"`
 }
 
 // ShipmentEventList ...
@@ -208,12 +256,62 @@ type RefundEventList struct {
 						} `xml:"ChargeAmount"`
 					} `xml:"ChargeComponent"`
 				} `xml:"ItemChargeAdjustmentList"`
-				SellerSKU string `xml:"SellerSKU"`
+				SellerSKU               string `xml:"SellerSKU"`
+				PromotionAdjustmentList struct {
+					Text      string `xml:",chardata"`
+					Promotion []struct {
+						Text            string `xml:",chardata"`
+						PromotionType   string `xml:"PromotionType"`
+						PromotionAmount struct {
+							Text           string `xml:",chardata"`
+							CurrencyAmount string `xml:"CurrencyAmount"`
+							CurrencyCode   string `xml:"CurrencyCode"`
+						} `xml:"PromotionAmount"`
+						PromotionID string `xml:"PromotionId"`
+					} `xml:"Promotion"`
+				} `xml:"PromotionAdjustmentList"`
 			} `xml:"ShipmentItem"`
 		} `xml:"ShipmentItemAdjustmentList"`
+
 		MarketplaceName string `xml:"MarketplaceName"`
 		SellerOrderID   string `xml:"SellerOrderId"`
 	} `xml:"ShipmentEvent"`
+}
+
+// CouponPaymentEventList ...
+type CouponPaymentEventList struct {
+	Text               string `xml:",chardata"`
+	CouponPaymentEvent []struct {
+		Text        string `xml:",chardata"`
+		TotalAmount struct {
+			Text           string `xml:",chardata"`
+			CurrencyAmount string `xml:"CurrencyAmount"`
+			CurrencyCode   string `xml:"CurrencyCode"`
+		} `xml:"TotalAmount"`
+		PaymentEventID          string `xml:"PaymentEventId"`
+		SellerCouponDescription string `xml:"SellerCouponDescription"`
+		FeeComponent            struct {
+			Text      string `xml:",chardata"`
+			FeeAmount struct {
+				Text           string `xml:",chardata"`
+				CurrencyAmount string `xml:"CurrencyAmount"`
+				CurrencyCode   string `xml:"CurrencyCode"`
+			} `xml:"FeeAmount"`
+			FeeType string `xml:"FeeType"`
+		} `xml:"FeeComponent"`
+		ChargeComponent struct {
+			Text         string `xml:",chardata"`
+			ChargeType   string `xml:"ChargeType"`
+			ChargeAmount struct {
+				Text           string `xml:",chardata"`
+				CurrencyAmount string `xml:"CurrencyAmount"`
+				CurrencyCode   string `xml:"CurrencyCode"`
+			} `xml:"ChargeAmount"`
+		} `xml:"ChargeComponent"`
+		CouponID              string `xml:"CouponId"`
+		ClipOrRedemptionCount string `xml:"ClipOrRedemptionCount"`
+		PostedDate            string `xml:"PostedDate"`
+	} `xml:"CouponPaymentEvent"`
 }
 
 // AdjustmentEventList ...
