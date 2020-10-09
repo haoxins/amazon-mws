@@ -22,9 +22,9 @@ type GetReportListByNextTokenResponse struct {
 
 // GetReportListResult The Get report list result
 type GetReportListResult struct {
-	Text       string                `xml:",chardata"`
-	NextToken  string                `xml:"NextToken"`
-	HasNext    bool                  `xml:"HasNext"`
+	Text        string                `xml:",chardata"`
+	NextToken   string                `xml:"NextToken"`
+	HasNext     bool                  `xml:"HasNext"`
 	ReportInfos []SingleReportInfoRow `xml:"ReportInfo"`
 }
 

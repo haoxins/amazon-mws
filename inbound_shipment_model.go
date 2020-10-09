@@ -29,7 +29,7 @@ type ListInboundShipmentsResult struct {
 
 // ShipmentData ...
 type ShipmentData struct {
-	Text   string           `xml:",chardata"`
+	Text    string           `xml:",chardata"`
 	Members []ShipmentMember `xml:"member"`
 }
 

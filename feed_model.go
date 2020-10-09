@@ -22,9 +22,9 @@ type GetFeedSubmissionListByNextTokenResponse struct {
 
 // GetFeedSubmissionListResult ...
 type GetFeedSubmissionListResult struct {
-	Text               string               `xml:",chardata"`
-	NextToken          string               `xml:"NextToken"`
-	HasNext            bool                 `xml:"HasNext"`
+	Text                string               `xml:",chardata"`
+	NextToken           string               `xml:"NextToken"`
+	HasNext             bool                 `xml:"HasNext"`
 	FeedSubmissionInfos []FeedSubmissionInfo `xml:"FeedSubmissionInfo"`
 }
 
