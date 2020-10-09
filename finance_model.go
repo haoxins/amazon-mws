@@ -168,8 +168,45 @@ type RefundEventList struct {
 		AmazonOrderID              string `xml:"AmazonOrderId"`
 		PostedDate                 string `xml:"PostedDate"`
 		ShipmentItemAdjustmentList struct {
-			Text         string       `xml:",chardata"`
-			ShipmentItem ShipmentItem `xml:"ShipmentItem"`
+			Text         string `xml:",chardata"`
+			ShipmentItem struct {
+				Text                string `xml:",chardata"`
+				ItemTaxWithheldList struct {
+					Text                 string `xml:",chardata"`
+					TaxWithheldComponent struct {
+						Text               string `xml:",chardata"`
+						TaxCollectionModel string `xml:"TaxCollectionModel"`
+						TaxesWithheld      struct {
+							Text            string          `xml:",chardata"`
+							ChargeComponent ChargeComponent `xml:"ChargeComponent"`
+						} `xml:"TaxesWithheld"`
+					} `xml:"TaxWithheldComponent"`
+				} `xml:"ItemTaxWithheldList"`
+				ItemFeeAdjustmentList struct {
+					Text         string         `xml:",chardata"`
+					FeeComponent []FeeComponent `xml:"FeeComponent"`
+				} `xml:"ItemFeeAdjustmentList"`
+				OrderAdjustmentItemID    string `xml:"OrderAdjustmentItemId"`
+				QuantityShipped          string `xml:"QuantityShipped"`
+				ItemChargeAdjustmentList struct {
+					Text            string            `xml:",chardata"`
+					ChargeComponent []ChargeComponent `xml:"ChargeComponent"`
+				} `xml:"ItemChargeAdjustmentList"`
+				SellerSKU               string `xml:"SellerSKU"`
+				PromotionAdjustmentList struct {
+					Text      string `xml:",chardata"`
+					Promotion []struct {
+						Text            string `xml:",chardata"`
+						PromotionType   string `xml:"PromotionType"`
+						PromotionAmount struct {
+							Text           string `xml:",chardata"`
+							CurrencyAmount string `xml:"CurrencyAmount"`
+							CurrencyCode   string `xml:"CurrencyCode"`
+						} `xml:"PromotionAmount"`
+						PromotionID string `xml:"PromotionId"`
+					} `xml:"Promotion"`
+				} `xml:"PromotionAdjustmentList"`
+			} `xml:"ShipmentItem"`
 		} `xml:"ShipmentItemAdjustmentList"`
 
 		MarketplaceName string `xml:"MarketplaceName"`
@@ -229,46 +266,6 @@ type AdjustmentEventList struct {
 		} `xml:"AdjustmentAmount"`
 		PostedDate string `xml:"PostedDate"`
 	} `xml:"AdjustmentEvent"`
-}
-
-// ShipmentItem ...
-type ShipmentItem struct {
-	Text                string `xml:",chardata"`
-	ItemTaxWithheldList struct {
-		Text                 string `xml:",chardata"`
-		TaxWithheldComponent struct {
-			Text               string `xml:",chardata"`
-			TaxCollectionModel string `xml:"TaxCollectionModel"`
-			TaxesWithheld      struct {
-				Text            string          `xml:",chardata"`
-				ChargeComponent ChargeComponent `xml:"ChargeComponent"`
-			} `xml:"TaxesWithheld"`
-		} `xml:"TaxWithheldComponent"`
-	} `xml:"ItemTaxWithheldList"`
-	ItemFeeAdjustmentList struct {
-		Text         string         `xml:",chardata"`
-		FeeComponent []FeeComponent `xml:"FeeComponent"`
-	} `xml:"ItemFeeAdjustmentList"`
-	OrderAdjustmentItemID    string `xml:"OrderAdjustmentItemId"`
-	QuantityShipped          string `xml:"QuantityShipped"`
-	ItemChargeAdjustmentList struct {
-		Text            string            `xml:",chardata"`
-		ChargeComponent []ChargeComponent `xml:"ChargeComponent"`
-	} `xml:"ItemChargeAdjustmentList"`
-	SellerSKU               string `xml:"SellerSKU"`
-	PromotionAdjustmentList struct {
-		Text      string `xml:",chardata"`
-		Promotion []struct {
-			Text            string `xml:",chardata"`
-			PromotionType   string `xml:"PromotionType"`
-			PromotionAmount struct {
-				Text           string `xml:",chardata"`
-				CurrencyAmount string `xml:"CurrencyAmount"`
-				CurrencyCode   string `xml:"CurrencyCode"`
-			} `xml:"PromotionAmount"`
-			PromotionID string `xml:"PromotionId"`
-		} `xml:"Promotion"`
-	} `xml:"PromotionAdjustmentList"`
 }
 
 // ChargeComponent ...
