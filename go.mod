@@ -8,5 +8,5 @@ require (
 	github.com/spf13/cast v1.3.1
 	github.com/stretchr/testify v1.6.1
 	github.com/thoas/go-funk v0.7.0
-	golang.org/x/net v0.0.0-20200927032502-5d4f70055728 // indirect
+	golang.org/x/net v0.0.0-20201009032441-dbdefad45b89 // indirect
 )
