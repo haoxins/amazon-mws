@@ -5,7 +5,6 @@ import "encoding/xml"
 // ListInboundShipmentsResponse ...
 type ListInboundShipmentsResponse struct {
 	XMLName                    xml.Name                   `xml:"ListInboundShipmentsResponse"`
-	Text                       string                     `xml:",chardata"`
 	Xmlns                      string                     `xml:"xmlns,attr"`
 	ListInboundShipmentsResult ListInboundShipmentsResult `xml:"ListInboundShipmentsResult"`
 	ResponseMetadata           ResponseMetadata           `xml:"ResponseMetadata"`
@@ -14,7 +13,6 @@ type ListInboundShipmentsResponse struct {
 // ListInboundShipmentsByNextTokenResponse ...
 type ListInboundShipmentsByNextTokenResponse struct {
 	XMLName                    xml.Name                   `xml:"ListInboundShipmentsByNextTokenResponse"`
-	Text                       string                     `xml:",chardata"`
 	Xmlns                      string                     `xml:"xmlns,attr"`
 	ListInboundShipmentsResult ListInboundShipmentsResult `xml:"ListInboundShipmentsByNextTokenResult"`
 	ResponseMetadata           ResponseMetadata           `xml:"ResponseMetadata"`
@@ -22,24 +20,20 @@ type ListInboundShipmentsByNextTokenResponse struct {
 
 // ListInboundShipmentsResult ...
 type ListInboundShipmentsResult struct {
-	Text         string       `xml:",chardata"`
 	NextToken    string       `xml:"NextToken"`
 	ShipmentData ShipmentData `xml:"ShipmentData"`
 }
 
 // ShipmentData ...
 type ShipmentData struct {
-	Text    string           `xml:",chardata"`
 	Members []ShipmentMember `xml:"member"`
 }
 
 // ShipmentMember ...
 type ShipmentMember struct {
-	Text                           string `xml:",chardata"`
 	DestinationFulfillmentCenterID string `xml:"DestinationFulfillmentCenterId"`
 	LabelPrepType                  string `xml:"LabelPrepType"`
 	ShipFromAddress                struct {
-		Text                string `xml:",chardata"`
 		City                string `xml:"City"`
 		CountryCode         string `xml:"CountryCode"`
 		PostalCode          string `xml:"PostalCode"`

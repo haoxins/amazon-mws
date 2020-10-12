@@ -5,7 +5,6 @@ import "encoding/xml"
 // GetFeedSubmissionListResponse ...
 type GetFeedSubmissionListResponse struct {
 	XMLName                     xml.Name                    `xml:"GetFeedSubmissionListResponse"`
-	Text                        string                      `xml:",chardata"`
 	Xmlns                       string                      `xml:"xmlns,attr"`
 	GetFeedSubmissionListResult GetFeedSubmissionListResult `xml:"GetFeedSubmissionListResult"`
 	ResponseMetadata            ResponseMetadata            `xml:"ResponseMetadata"`
@@ -14,7 +13,6 @@ type GetFeedSubmissionListResponse struct {
 // GetFeedSubmissionListByNextTokenResponse ...
 type GetFeedSubmissionListByNextTokenResponse struct {
 	XMLName                     xml.Name                    `xml:"GetFeedSubmissionListByNextTokenResponse"`
-	Text                        string                      `xml:",chardata"`
 	Xmlns                       string                      `xml:"xmlns,attr"`
 	GetFeedSubmissionListResult GetFeedSubmissionListResult `xml:"GetFeedSubmissionListByNextTokenResult"`
 	ResponseMetadata            ResponseMetadata            `xml:"ResponseMetadata"`
@@ -22,7 +20,6 @@ type GetFeedSubmissionListByNextTokenResponse struct {
 
 // GetFeedSubmissionListResult ...
 type GetFeedSubmissionListResult struct {
-	Text                string               `xml:",chardata"`
 	NextToken           string               `xml:"NextToken"`
 	HasNext             bool                 `xml:"HasNext"`
 	FeedSubmissionInfos []FeedSubmissionInfo `xml:"FeedSubmissionInfo"`
@@ -30,7 +27,6 @@ type GetFeedSubmissionListResult struct {
 
 // FeedSubmissionInfo ...
 type FeedSubmissionInfo struct {
-	Text                    string `xml:",chardata"`
 	FeedProcessingStatus    string `xml:"FeedProcessingStatus"`
 	FeedType                string `xml:"FeedType"`
 	FeedSubmissionID        string `xml:"FeedSubmissionId"`

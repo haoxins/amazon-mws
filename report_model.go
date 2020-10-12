@@ -5,7 +5,6 @@ import "encoding/xml"
 // GetReportListResponse Get report list api response
 type GetReportListResponse struct {
 	XMLName             xml.Name            `xml:"GetReportListResponse"`
-	Text                string              `xml:",chardata"`
 	Xmlns               string              `xml:"xmlns,attr"`
 	GetReportListResult GetReportListResult `xml:"GetReportListResult"`
 	ResponseMetadata    ResponseMetadata    `xml:"ResponseMetadata"`
@@ -14,7 +13,6 @@ type GetReportListResponse struct {
 // GetReportListByNextTokenResponse The Get report list by next token response
 type GetReportListByNextTokenResponse struct {
 	XMLName             xml.Name            `xml:"GetReportListByNextTokenResponse"`
-	Text                string              `xml:",chardata"`
 	Xmlns               string              `xml:"xmlns,attr"`
 	GetReportListResult GetReportListResult `xml:"GetReportListResult"`
 	ResponseMetadata    ResponseMetadata    `xml:"ResponseMetadata"`
@@ -22,7 +20,6 @@ type GetReportListByNextTokenResponse struct {
 
 // GetReportListResult The Get report list result
 type GetReportListResult struct {
-	Text        string                `xml:",chardata"`
 	NextToken   string                `xml:"NextToken"`
 	HasNext     bool                  `xml:"HasNext"`
 	ReportInfos []SingleReportInfoRow `xml:"ReportInfo"`
@@ -30,7 +27,6 @@ type GetReportListResult struct {
 
 // SingleReportInfoRow The report info row
 type SingleReportInfoRow struct {
-	Text            string `xml:",chardata"`
 	ReportType      string `xml:"ReportType"`
 	Acknowledged    string `xml:"Acknowledged"`
 	ReportID        string `xml:"ReportId"`

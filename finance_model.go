@@ -5,7 +5,6 @@ import "encoding/xml"
 // ListFinancialEventsResponse ...
 type ListFinancialEventsResponse struct {
 	XMLName                   xml.Name                  `xml:"ListFinancialEventsResponse"`
-	Text                      string                    `xml:",chardata"`
 	Xmlns                     string                    `xml:"xmlns,attr"`
 	ListFinancialEventsResult ListFinancialEventsResult `xml:"ListFinancialEventsResult"`
 	ResponseMetadata          ResponseMetadata          `xml:"ResponseMetadata"`
@@ -14,7 +13,6 @@ type ListFinancialEventsResponse struct {
 // ListFinancialEventsByNextTokenResponse ...
 type ListFinancialEventsByNextTokenResponse struct {
 	XMLName                   xml.Name                  `xml:"ListFinancialEventsByNextTokenResponse"`
-	Text                      string                    `xml:",chardata"`
 	Xmlns                     string                    `xml:"xmlns,attr"`
 	ListFinancialEventsResult ListFinancialEventsResult `xml:"ListFinancialEventsByNextTokenResult"`
 	ResponseMetadata          ResponseMetadata          `xml:"ResponseMetadata"`
@@ -22,14 +20,12 @@ type ListFinancialEventsByNextTokenResponse struct {
 
 // ListFinancialEventsResult ...
 type ListFinancialEventsResult struct {
-	Text            string          `xml:",chardata"`
 	NextToken       string          `xml:"NextToken"`
 	FinancialEvents FinancialEvents `xml:"FinancialEvents"`
 }
 
 // FinancialEvents ...
 type FinancialEvents struct {
-	Text                                   string                     `xml:",chardata"`
 	ProductAdsPaymentEventList             ProductAdsPaymentEventList `xml:"ProductAdsPaymentEventList"`
 	RentalTransactionEventList             string                     `xml:"RentalTransactionEventList"`
 	ServiceFeeEventList                    ServiceFeeEventList        `xml:"ServiceFeeEventList"`
@@ -65,23 +61,18 @@ type FinancialEvents struct {
 
 // ProductAdsPaymentEventList ...
 type ProductAdsPaymentEventList struct {
-	Text                    string `xml:",chardata"`
 	ProductAdsPaymentEvents []struct {
-		Text            string `xml:",chardata"`
 		TransactionType string `xml:"transactionType"`
 		BaseValue       struct {
-			Text           string `xml:",chardata"`
 			CurrencyAmount string `xml:"CurrencyAmount"`
 			CurrencyCode   string `xml:"CurrencyCode"`
 		} `xml:"baseValue"`
 		TaxValue struct {
-			Text           string `xml:",chardata"`
 			CurrencyAmount string `xml:"CurrencyAmount"`
 			CurrencyCode   string `xml:"CurrencyCode"`
 		} `xml:"taxValue"`
 		InvoiceID        string `xml:"invoiceId"`
 		TransactionValue struct {
-			Text           string `xml:",chardata"`
 			CurrencyAmount string `xml:"CurrencyAmount"`
 			CurrencyCode   string `xml:"CurrencyCode"`
 		} `xml:"transactionValue"`
@@ -91,32 +82,26 @@ type ProductAdsPaymentEventList struct {
 
 // ServiceFeeEventList ...
 type ServiceFeeEventList struct {
-	Text             string                     `xml:",chardata"`
 	ServiceFeeEvents []FinancialServiceFeeEvent `xml:"ServiceFeeEvent"`
 }
 
 // FinancialServiceFeeEvent ...
 type FinancialServiceFeeEvent struct {
-	Text          string `xml:",chardata"`
 	FeeReason     string `xml:"FeeReason"`
 	AmazonOrderID string `xml:"AmazonOrderId"`
 	FeeList       struct {
-		Text          string         `xml:",chardata"`
 		FeeComponents []FeeComponent `xml:"FeeComponent"`
 	} `xml:"FeeList"`
 }
 
 // ShipmentEventList ...
 type ShipmentEventList struct {
-	Text           string                   `xml:",chardata"`
 	ShipmentEvents []FinancialShipmentEvent `xml:"ShipmentEvent"`
 }
 
 // FinancialShipmentEvent ...
 type FinancialShipmentEvent struct {
-	Text             string `xml:",chardata"`
 	ShipmentItemList struct {
-		Text          string         `xml:",chardata"`
 		ShipmentItems []ShipmentItem `xml:"ShipmentItem"`
 	} `xml:"ShipmentItemList"`
 	AmazonOrderID   string `xml:"AmazonOrderId"`
@@ -124,24 +109,20 @@ type FinancialShipmentEvent struct {
 	MarketplaceName string `xml:"MarketplaceName"`
 	SellerOrderID   string `xml:"SellerOrderId"`
 	ShipmentFeeList struct {
-		Text          string         `xml:",chardata"`
 		FeeComponents []FeeComponent `xml:"FeeComponent"`
 	} `xml:"ShipmentFeeList"`
 }
 
 // RefundEventList ...
 type RefundEventList struct {
-	Text           string                         `xml:",chardata"`
 	ShipmentEvents []FinancialRefundShipmentEvent `xml:"ShipmentEvent"`
 }
 
 // FinancialRefundShipmentEvent ...
 type FinancialRefundShipmentEvent struct {
-	Text                       string `xml:",chardata"`
 	AmazonOrderID              string `xml:"AmazonOrderId"`
 	PostedDate                 string `xml:"PostedDate"`
 	ShipmentItemAdjustmentList struct {
-		Text          string                   `xml:",chardata"`
 		ShipmentItems []ShipmentItemAdjustment `xml:"ShipmentItem"`
 	} `xml:"ShipmentItemAdjustmentList"`
 	MarketplaceName string `xml:"MarketplaceName"`
@@ -150,15 +131,12 @@ type FinancialRefundShipmentEvent struct {
 
 // CouponPaymentEventList ...
 type CouponPaymentEventList struct {
-	Text                string                        `xml:",chardata"`
 	CouponPaymentEvents []FinancialCouponPaymentEvent `xml:"CouponPaymentEvent"`
 }
 
 // FinancialCouponPaymentEvent ...
 type FinancialCouponPaymentEvent struct {
-	Text        string `xml:",chardata"`
 	TotalAmount struct {
-		Text           string `xml:",chardata"`
 		CurrencyAmount string `xml:"CurrencyAmount"`
 		CurrencyCode   string `xml:"CurrencyCode"`
 	} `xml:"TotalAmount"`
@@ -173,25 +151,19 @@ type FinancialCouponPaymentEvent struct {
 
 // AdjustmentEventList ...
 type AdjustmentEventList struct {
-	Text             string                     `xml:",chardata"`
 	AdjustmentEvents []FinancialAdjustmentEvent `xml:"AdjustmentEvent"`
 }
 
 // FinancialAdjustmentEvent ...
 type FinancialAdjustmentEvent struct {
-	Text               string `xml:",chardata"`
 	AdjustmentType     string `xml:"AdjustmentType"`
 	AdjustmentItemList struct {
-		Text            string `xml:",chardata"`
 		AdjustmentItems []struct {
-			Text          string `xml:",chardata"`
 			PerUnitAmount struct {
-				Text           string `xml:",chardata"`
 				CurrencyAmount string `xml:"CurrencyAmount"`
 				CurrencyCode   string `xml:"CurrencyCode"`
 			} `xml:"PerUnitAmount"`
 			TotalAmount struct {
-				Text           string `xml:",chardata"`
 				CurrencyAmount string `xml:"CurrencyAmount"`
 				CurrencyCode   string `xml:"CurrencyCode"`
 			} `xml:"TotalAmount"`
@@ -201,7 +173,6 @@ type FinancialAdjustmentEvent struct {
 		} `xml:"AdjustmentItem"`
 	} `xml:"AdjustmentItemList"`
 	AdjustmentAmount struct {
-		Text           string `xml:",chardata"`
 		CurrencyAmount string `xml:"CurrencyAmount"`
 		CurrencyCode   string `xml:"CurrencyCode"`
 	} `xml:"AdjustmentAmount"`
@@ -210,10 +181,8 @@ type FinancialAdjustmentEvent struct {
 
 // ChargeComponent ...
 type ChargeComponent struct {
-	Text         string `xml:",chardata"`
 	ChargeType   string `xml:"ChargeType"`
 	ChargeAmount struct {
-		Text           string `xml:",chardata"`
 		CurrencyAmount string `xml:"CurrencyAmount"`
 		CurrencyCode   string `xml:"CurrencyCode"`
 	} `xml:"ChargeAmount"`
@@ -221,10 +190,8 @@ type ChargeComponent struct {
 
 // FeeComponent ...
 type FeeComponent struct {
-	Text      string `xml:",chardata"`
 	FeeType   string `xml:"FeeType"`
 	FeeAmount struct {
-		Text           string `xml:",chardata"`
 		CurrencyAmount string `xml:"CurrencyAmount"`
 		CurrencyCode   string `xml:"CurrencyCode"`
 	} `xml:"FeeAmount"`
@@ -232,10 +199,8 @@ type FeeComponent struct {
 
 // Promotion ...
 type Promotion struct {
-	Text            string `xml:",chardata"`
 	PromotionType   string `xml:"PromotionType"`
 	PromotionAmount struct {
-		Text           string `xml:",chardata"`
 		CurrencyAmount string `xml:"CurrencyAmount"`
 		CurrencyCode   string `xml:"CurrencyCode"`
 	} `xml:"PromotionAmount"`
@@ -244,12 +209,9 @@ type Promotion struct {
 
 // ItemTaxWithheldList ...
 type ItemTaxWithheldList struct {
-	Text                 string `xml:",chardata"`
 	TaxWithheldComponent struct {
-		Text               string `xml:",chardata"`
 		TaxCollectionModel string `xml:"TaxCollectionModel"`
 		TaxesWithheld      struct {
-			Text             string            `xml:",chardata"`
 			ChargeComponents []ChargeComponent `xml:"ChargeComponent"`
 		} `xml:"TaxesWithheld"`
 	} `xml:"TaxWithheldComponent"`
@@ -257,42 +219,34 @@ type ItemTaxWithheldList struct {
 
 // ShipmentItem ...
 type ShipmentItem struct {
-	Text                string              `xml:",chardata"`
 	ItemTaxWithheldList ItemTaxWithheldList `xml:"ItemTaxWithheldList"`
 	ItemChargeList      struct {
-		Text             string            `xml:",chardata"`
 		ChargeComponents []ChargeComponent `xml:"ChargeComponent"`
 	} `xml:"ItemChargeList"`
 	ItemFeeList struct {
-		Text          string         `xml:",chardata"`
 		FeeComponents []FeeComponent `xml:"FeeComponent"`
 	} `xml:"ItemFeeList"`
 	OrderItemID     string `xml:"OrderItemId"`
 	QuantityShipped string `xml:"QuantityShipped"`
 	SellerSKU       string `xml:"SellerSKU"`
 	PromotionList   struct {
-		Text       string      `xml:",chardata"`
 		Promotions []Promotion `xml:"Promotion"`
 	} `xml:"PromotionList"`
 }
 
 // ShipmentItemAdjustment ...
 type ShipmentItemAdjustment struct {
-	Text                  string              `xml:",chardata"`
 	ItemTaxWithheldList   ItemTaxWithheldList `xml:"ItemTaxWithheldList"`
 	ItemFeeAdjustmentList struct {
-		Text          string         `xml:",chardata"`
 		FeeComponents []FeeComponent `xml:"FeeComponent"`
 	} `xml:"ItemFeeAdjustmentList"`
 	OrderAdjustmentItemID    string `xml:"OrderAdjustmentItemId"`
 	QuantityShipped          string `xml:"QuantityShipped"`
 	ItemChargeAdjustmentList struct {
-		Text             string            `xml:",chardata"`
 		ChargeComponents []ChargeComponent `xml:"ChargeComponent"`
 	} `xml:"ItemChargeAdjustmentList"`
 	SellerSKU               string `xml:"SellerSKU"`
 	PromotionAdjustmentList struct {
-		Text       string      `xml:",chardata"`
 		Promotions []Promotion `xml:"Promotion"`
 	} `xml:"PromotionAdjustmentList"`
 }
