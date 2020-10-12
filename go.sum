@@ -3,8 +3,6 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/go-resty/resty/v2 v2.3.0 h1:JOOeAvjSlapTT92p8xiS19Zxev1neGikoHsXJeOq8So=
 github.com/go-resty/resty/v2 v2.3.0/go.mod h1:UpN9CgLZNsv4e9XG50UU8xdI0F43UQ4HmxLBDwaroHU=
-github.com/haoxins/tools/v2 v2.3.0 h1:rfivtUda/J5aqkhZ9LQ9TUCjrgfrvmJhvFg99VbPKAc=
-github.com/haoxins/tools/v2 v2.3.0/go.mod h1:Rw6Bw7ONFTsyusxFSQTycb4WwFel19QxYzzXRv3382U=
 github.com/haoxins/tools/v2 v2.3.1 h1:cd8kdfG3FKK0mNJ6xn9jnlI1rnmcDFFgXTCkNjPe4fc=
 github.com/haoxins/tools/v2 v2.3.1/go.mod h1:Rw6Bw7ONFTsyusxFSQTycb4WwFel19QxYzzXRv3382U=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
