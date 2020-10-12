@@ -10,24 +10,35 @@ import (
 	"github.com/spf13/cast"
 )
 
-type shipmentStatus string
+// ShipmentStatus ...
+type ShipmentStatus string
 
 const (
-	shipmentStatusWorking   shipmentStatus = "WORKING"
-	shipmentStatusShipped                  = "SHIPPED"
-	shipmentStatusInTransit                = "IN_TRANSIT"
-	shipmentStatusDelivered                = "DELIVERED"
-	shipmentStatusCheckedIn                = "CHECKED_IN"
-	shipmentStatusReceiving                = "RECEIVING"
-	shipmentStatusClosed                   = "CLOSED"
-	shipmentStatusCancelled                = "CANCELLED"
-	shipmentStatusDeleted                  = "DELETED"
-	shipmentStatusError                    = "ERROR"
+	// ShipmentStatusWorking ...
+	ShipmentStatusWorking ShipmentStatus = "WORKING"
+	// ShipmentStatusShipped ...
+	ShipmentStatusShipped = "SHIPPED"
+	// ShipmentStatusInTransit ...
+	ShipmentStatusInTransit = "IN_TRANSIT"
+	// ShipmentStatusDelivered ...
+	ShipmentStatusDelivered = "DELIVERED"
+	// ShipmentStatusCheckedIn ...
+	ShipmentStatusCheckedIn = "CHECKED_IN"
+	// ShipmentStatusReceiving ...
+	ShipmentStatusReceiving = "RECEIVING"
+	// ShipmentStatusClosed ...
+	ShipmentStatusClosed = "CLOSED"
+	// ShipmentStatusCancelled ...
+	ShipmentStatusCancelled = "CANCELLED"
+	// ShipmentStatusDeleted ...
+	ShipmentStatusDeleted = "DELETED"
+	// ShipmentStatusError ...
+	ShipmentStatusError = "ERROR"
 )
 
 // ListInboundShipmentsParams ListInboundShipments API params
 type ListInboundShipmentsParams struct {
-	ShipmentStatusList []shipmentStatus
+	ShipmentStatusList []ShipmentStatus
 	LastUpdatedAfter   time.Time
 	LastUpdatedBefore  time.Time
 }
