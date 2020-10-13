@@ -220,33 +220,46 @@ type ItemTaxWithheldList struct {
 // ShipmentItem ...
 type ShipmentItem struct {
 	ItemTaxWithheldList ItemTaxWithheldList `xml:"ItemTaxWithheldList"`
-	ItemChargeList      struct {
-		ChargeComponents []ChargeComponent `xml:"ChargeComponent"`
-	} `xml:"ItemChargeList"`
-	ItemFeeList struct {
-		FeeComponents []FeeComponent `xml:"FeeComponent"`
-	} `xml:"ItemFeeList"`
-	OrderItemID     string `xml:"OrderItemId"`
-	QuantityShipped string `xml:"QuantityShipped"`
-	SellerSKU       string `xml:"SellerSKU"`
-	PromotionList   struct {
-		Promotions []Promotion `xml:"Promotion"`
-	} `xml:"PromotionList"`
+	ItemChargeList      ItemChargeList      `xml:"ItemChargeList"`
+	ItemFeeList         ItemFeeList         `xml:"ItemFeeList"`
+	OrderItemID         string              `xml:"OrderItemId"`
+	QuantityShipped     string              `xml:"QuantityShipped"`
+	SellerSKU           string              `xml:"SellerSKU"`
+	PromotionList       PromotionList       `xml:"PromotionList"`
+}
+
+// ItemFeeList ...
+type ItemFeeList struct {
+	FeeComponents []FeeComponent `xml:"FeeComponent"`
+}
+
+// ItemChargeList ...
+type ItemChargeList struct {
+	ChargeComponents []ChargeComponent `xml:"ChargeComponent"`
 }
 
 // ShipmentItemAdjustment ...
 type ShipmentItemAdjustment struct {
-	ItemTaxWithheldList   ItemTaxWithheldList `xml:"ItemTaxWithheldList"`
-	ItemFeeAdjustmentList struct {
-		FeeComponents []FeeComponent `xml:"FeeComponent"`
-	} `xml:"ItemFeeAdjustmentList"`
-	OrderAdjustmentItemID    string `xml:"OrderAdjustmentItemId"`
-	QuantityShipped          string `xml:"QuantityShipped"`
-	ItemChargeAdjustmentList struct {
-		ChargeComponents []ChargeComponent `xml:"ChargeComponent"`
-	} `xml:"ItemChargeAdjustmentList"`
-	SellerSKU               string `xml:"SellerSKU"`
-	PromotionAdjustmentList struct {
-		Promotions []Promotion `xml:"Promotion"`
-	} `xml:"PromotionAdjustmentList"`
+	ItemTaxWithheldList      ItemTaxWithheldList      `xml:"ItemTaxWithheldList"`
+	ItemFeeAdjustmentList    ItemFeeAdjustmentList    `xml:"ItemFeeAdjustmentList"`
+	OrderAdjustmentItemID    string                   `xml:"OrderAdjustmentItemId"`
+	QuantityShipped          string                   `xml:"QuantityShipped"`
+	ItemChargeAdjustmentList ItemChargeAdjustmentList `xml:"ItemChargeAdjustmentList"`
+	SellerSKU                string                   `xml:"SellerSKU"`
+	PromotionAdjustmentList  PromotionList            `xml:"PromotionAdjustmentList"`
+}
+
+// ItemFeeAdjustmentList ...
+type ItemFeeAdjustmentList struct {
+	FeeComponents []FeeComponent `xml:"FeeComponent"`
+}
+
+// ItemChargeAdjustmentList ...
+type ItemChargeAdjustmentList struct {
+	ChargeComponents []ChargeComponent `xml:"ChargeComponent"`
+}
+
+// PromotionList ...
+type PromotionList struct {
+	Promotions []Promotion `xml:"Promotion"`
 }
