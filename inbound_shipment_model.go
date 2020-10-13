@@ -31,22 +31,25 @@ type ShipmentData struct {
 
 // ShipmentMember ...
 type ShipmentMember struct {
-	DestinationFulfillmentCenterID string `xml:"DestinationFulfillmentCenterId"`
-	LabelPrepType                  string `xml:"LabelPrepType"`
-	ShipFromAddress                struct {
-		City                string `xml:"City"`
-		CountryCode         string `xml:"CountryCode"`
-		PostalCode          string `xml:"PostalCode"`
-		Name                string `xml:"Name"`
-		AddressLine1        string `xml:"AddressLine1"`
-		StateOrProvinceCode string `xml:"StateOrProvinceCode"`
-		DistrictOrCounty    string `xml:"DistrictOrCounty"`
-		AddressLine2        string `xml:"AddressLine2"`
-	} `xml:"ShipFromAddress"`
-	ShipmentID          string `xml:"ShipmentId"`
-	AreCasesRequired    string `xml:"AreCasesRequired"`
-	ShipmentName        string `xml:"ShipmentName"`
-	BoxContentsSource   string `xml:"BoxContentsSource"`
-	ShipmentStatus      string `xml:"ShipmentStatus"`
-	ConfirmedNeedByDate string `xml:"ConfirmedNeedByDate"`
+	DestinationFulfillmentCenterID string          `xml:"DestinationFulfillmentCenterId"`
+	LabelPrepType                  string          `xml:"LabelPrepType"`
+	ShipFromAddress                ShipFromAddress `xml:"ShipFromAddress"`
+	ShipmentID                     string          `xml:"ShipmentId"`
+	AreCasesRequired               string          `xml:"AreCasesRequired"`
+	ShipmentName                   string          `xml:"ShipmentName"`
+	BoxContentsSource              string          `xml:"BoxContentsSource"`
+	ShipmentStatus                 string          `xml:"ShipmentStatus"`
+	ConfirmedNeedByDate            string          `xml:"ConfirmedNeedByDate"`
+}
+
+// ShipFromAddress ...
+type ShipFromAddress struct {
+	City                string `xml:"City"`
+	CountryCode         string `xml:"CountryCode"`
+	PostalCode          string `xml:"PostalCode"`
+	Name                string `xml:"Name"`
+	AddressLine1        string `xml:"AddressLine1"`
+	StateOrProvinceCode string `xml:"StateOrProvinceCode"`
+	DistrictOrCounty    string `xml:"DistrictOrCounty"`
+	AddressLine2        string `xml:"AddressLine2"`
 }
