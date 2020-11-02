@@ -21,7 +21,7 @@ func (seller *Seller) ListOrders(params ListOrdersParams) {
 	opts := seller.genListOrdersParams(params)
 
 	body, err := seller.requestOrders(opts)
-	tools.AssertError(err)
+	tools.PanicError(err)
 
 	data := ListOrdersResponse{}
 	err = xml.Unmarshal(body, &data)

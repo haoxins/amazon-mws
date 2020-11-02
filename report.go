@@ -15,7 +15,7 @@ func (seller *Seller) GetReportList(startTime time.Time, endTime time.Time, next
 	params := seller.genGetReportListParams(ReportTypeSettlement, startTime, endTime, nextToken)
 
 	raw, err := seller.requestReports(params)
-	tools.AssertError(err)
+	tools.PanicError(err)
 
 	if nextToken == "" {
 		data := GetReportListResponse{}
@@ -68,7 +68,7 @@ func (seller *Seller) GetReportByID(reportID string) []SettlementReportRow {
 	params := seller.genGetReportParams(reportID)
 
 	raw, err := seller.requestReports(params)
-	tools.AssertError(err)
+	tools.PanicError(err)
 	text := string(raw)
 
 	return parseCSVReport(text)

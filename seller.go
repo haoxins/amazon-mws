@@ -36,7 +36,7 @@ func (seller *Seller) addSignature(method string, path string, payload string) s
 
 	hasher := hmac.New(sha256.New, []byte(seller.SecretKey))
 	_, err := hasher.Write([]byte(toSignString))
-	tools.AssertError(err)
+	tools.PanicError(err)
 
 	hash := base64.StdEncoding.EncodeToString(hasher.Sum(nil))
 
