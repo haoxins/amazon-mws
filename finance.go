@@ -53,8 +53,6 @@ func (seller *Seller) genListFinancialEventsParams(params ListFinancialEventsPar
 
 	v.Add("MaxResultsPerPage", "100")
 	v.Add("Version", "2015-05-01")
-	v.Add("SignatureMethod", "HmacSHA256")
-	v.Add("SignatureVersion", "2")
 
 	if nextToken != "" {
 		v.Add("Action", "ListFinancialEventsByNextToken")

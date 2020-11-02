@@ -59,8 +59,6 @@ func (seller *Seller) genGetFeedSubmissionListParams(params GetFeedSubmissionLis
 
 	v.Add("MaxCount", "100")
 	v.Add("Version", "2009-01-01")
-	v.Add("SignatureMethod", "HmacSHA256")
-	v.Add("SignatureVersion", "2")
 
 	if nextToken != "" {
 		v.Add("Action", "GetFeedSubmissionListByNextToken")

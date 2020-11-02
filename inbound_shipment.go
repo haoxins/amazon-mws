@@ -64,7 +64,6 @@ func (seller *Seller) ListInboundShipments(params ListInboundShipmentsParams) []
 	}
 
 	return members
-
 }
 
 func (seller *Seller) listInboundShipmentsByNextToken(nextToken string) ListInboundShipmentsResult {
@@ -82,8 +81,6 @@ func (seller *Seller) genListInboundShipmentsParams(params ListInboundShipmentsP
 	seller.addBasicParams(&v)
 
 	v.Add("Version", "2010-10-01")
-	v.Add("SignatureMethod", "HmacSHA256")
-	v.Add("SignatureVersion", "2")
 
 	if nextToken != "" {
 		v.Add("Action", "ListInboundShipmentsByNextToken")
