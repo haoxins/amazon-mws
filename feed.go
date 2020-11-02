@@ -52,14 +52,12 @@ func (seller *Seller) getFeedSubmissionListByNextToken(nextToken string) GetFeed
 func (seller *Seller) genGetFeedSubmissionListParams(params GetFeedSubmissionListParams, nextToken string) string {
 	v := url.Values{}
 
-	mid := MarketplaceID[seller.Country]
+	seller.addBasicParams(&v)
 
-	v.Add("AWSAccessKeyId", seller.AccessKey)
-	v.Add("SellerId", seller.SellerID)
-	v.Add("MWSAuthToken", seller.AuthToken)
+	mid := MarketplaceID[seller.Country]
 	v.Add("Marketplace", mid)
+
 	v.Add("MaxCount", "100")
-	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
 	v.Add("Version", "2009-01-01")
 	v.Add("SignatureMethod", "HmacSHA256")
 	v.Add("SignatureVersion", "2")

@@ -23,6 +23,13 @@ type Seller struct {
 	SecretKey string
 }
 
+func (seller *Seller) addBasicParams(v *url.Values) {
+	v.Add("AWSAccessKeyId", seller.AccessKey)
+	v.Add("SellerId", seller.SellerID)
+	v.Add("MWSAuthToken", seller.AuthToken)
+	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
+}
+
 func (seller *Seller) addSignature(method string, path string, payload string) string {
 	escapedParams := strings.Replace(payload, ",", "%2C", -1)
 	escapedParams = strings.Replace(escapedParams, ":", "%3A", -1)

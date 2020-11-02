@@ -37,16 +37,14 @@ func (seller *Seller) ListOrders(params ListOrdersParams) {
 func (seller *Seller) genListOrdersParams(params ListOrdersParams) string {
 	v := url.Values{}
 
+	seller.addBasicParams(&v)
+
 	mid := MarketplaceID[seller.Country]
+	v.Add("MarketplaceId.Id.1", mid)
 
 	v.Add("Action", "ListOrders")
-	v.Add("SellerId", seller.SellerID)
-	v.Add("MWSAuthToken", seller.AuthToken)
-	v.Add("AWSAccessKeyId", seller.AccessKey)
-	v.Add("MarketplaceId.Id.1", mid)
 	v.Add("LastUpdatedAfter", params.LastUpdatedAfter.Format(time.RFC3339))
 	v.Add("LastUpdatedBefore", params.LastUpdatedBefore.Format(time.RFC3339))
-	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
 	v.Add("SignatureVersion", "2")
 	v.Add("SignatureMethod", "HmacSHA256")
 	v.Add("Version", "2013-09-01")
