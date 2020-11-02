@@ -8,3 +8,7 @@ https://developer.amazonservices.com
 ## Tools
 
 * [XML to Go struct](https://www.onlinetool.io/xmltogo/)
+
+## TODOs
+
+* Throttling
