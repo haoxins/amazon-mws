@@ -1,8 +1,6 @@
 package mws
 
 const (
-	// ReportTypeSettlement ...
-	ReportTypeSettlement = "_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_V2_"
 	// ReportsPath The reports path
 	ReportsPath = "/Reports/2009-01-01"
 	// OrdersPath The orders path

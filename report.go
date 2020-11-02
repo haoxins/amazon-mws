@@ -10,9 +10,17 @@ import (
 	"github.com/thoas/go-funk"
 )
 
+// ReportType The Amazon report type
+type ReportType string
+
+const (
+	// SettlementReport ...
+	SettlementReport ReportType = "_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_V2_"
+)
+
 // GetReportList Get seller report list by report type
 func (seller *Seller) GetReportList(startTime time.Time, endTime time.Time, nextToken string) *GetReportListResult {
-	params := seller.genGetReportListParams(ReportTypeSettlement, startTime, endTime, nextToken)
+	params := seller.genGetReportListParams(SettlementReport, startTime, endTime, nextToken)
 
 	raw, err := seller.requestReports(params)
 	tools.PanicError(err)
@@ -74,7 +82,7 @@ func (seller *Seller) GetReportByID(reportID string) []SettlementReportRow {
 	return parseCSVReport(text)
 }
 
-func (seller *Seller) genGetReportListParams(reportType string, startTime time.Time, endTime time.Time, nextToken string) string {
+func (seller *Seller) genGetReportListParams(reportType ReportType, startTime time.Time, endTime time.Time, nextToken string) string {
 	v := url.Values{}
 
 	seller.addBasicParams(&v)
@@ -86,7 +94,7 @@ func (seller *Seller) genGetReportListParams(reportType string, startTime time.T
 		v.Add("Action", "GetReportList")
 	}
 
-	v.Add("ReportTypeList.Type.1", reportType)
+	v.Add("ReportTypeList.Type.1", string(reportType))
 	v.Add("AvailableFromDate", startTime.Format(time.RFC3339))
 	v.Add("AvailableToDate", endTime.Format(time.RFC3339))
 	v.Add("MaxCount", "100")
