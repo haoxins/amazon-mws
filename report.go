@@ -77,6 +77,8 @@ func (seller *Seller) GetReportByID(reportID string) []SettlementReportRow {
 func (seller *Seller) genGetReportListParams(reportType string, startTime time.Time, endTime time.Time, nextToken string) string {
 	v := url.Values{}
 
+	seller.addBasicParams(&v)
+
 	if nextToken != "" {
 		v.Add("Action", "GetReportListByNextToken")
 		v.Add("NextToken", nextToken)
@@ -84,12 +86,7 @@ func (seller *Seller) genGetReportListParams(reportType string, startTime time.T
 		v.Add("Action", "GetReportList")
 	}
 
-	v.Add("SellerId", seller.SellerID)
-	v.Add("MWSAuthToken", seller.AuthToken)
-	v.Add("AWSAccessKeyId", seller.AccessKey)
 	v.Add("ReportTypeList.Type.1", reportType)
-
-	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
 	v.Add("AvailableFromDate", startTime.Format(time.RFC3339))
 	v.Add("AvailableToDate", endTime.Format(time.RFC3339))
 	v.Add("MaxCount", "100")
@@ -105,12 +102,10 @@ func (seller *Seller) genGetReportListParams(reportType string, startTime time.T
 func (seller *Seller) genGetReportParams(reportID string) string {
 	v := url.Values{}
 
+	seller.addBasicParams(&v)
+
 	v.Add("Action", "GetReport")
-	v.Add("SellerId", seller.SellerID)
-	v.Add("MWSAuthToken", seller.AuthToken)
-	v.Add("AWSAccessKeyId", seller.AccessKey)
 	v.Add("ReportId", reportID)
-	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
 	v.Add("SignatureVersion", "2")
 	v.Add("SignatureMethod", "HmacSHA256")
 	v.Add("Version", "2009-01-01")

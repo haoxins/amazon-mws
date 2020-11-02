@@ -49,11 +49,9 @@ func (seller *Seller) listFinancialEventsByNextToken(nextToken string) ListFinan
 func (seller *Seller) genListFinancialEventsParams(params ListFinancialEventsParams, nextToken string) string {
 	v := url.Values{}
 
-	v.Add("AWSAccessKeyId", seller.AccessKey)
-	v.Add("SellerId", seller.SellerID)
-	v.Add("MWSAuthToken", seller.AuthToken)
+	seller.addBasicParams(&v)
+
 	v.Add("MaxResultsPerPage", "100")
-	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
 	v.Add("Version", "2015-05-01")
 	v.Add("SignatureMethod", "HmacSHA256")
 	v.Add("SignatureVersion", "2")

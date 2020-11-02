@@ -79,10 +79,8 @@ func (seller *Seller) listInboundShipmentsByNextToken(nextToken string) ListInbo
 func (seller *Seller) genListInboundShipmentsParams(params ListInboundShipmentsParams, nextToken string) string {
 	v := url.Values{}
 
-	v.Add("AWSAccessKeyId", seller.AccessKey)
-	v.Add("SellerId", seller.SellerID)
-	v.Add("MWSAuthToken", seller.AuthToken)
-	v.Add("Timestamp", time.Now().UTC().Format(time.RFC3339))
+	seller.addBasicParams(&v)
+
 	v.Add("Version", "2010-10-01")
 	v.Add("SignatureMethod", "HmacSHA256")
 	v.Add("SignatureVersion", "2")
