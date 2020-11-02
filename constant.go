@@ -13,6 +13,8 @@ const (
 	InboundShipmentPath = "/FulfillmentInboundShipment/2010-10-01"
 	// FinancesPath The finances path
 	FinancesPath = "/Finances/2015-05-01"
+	// InventoryPath The inventory path
+	InventoryPath = "/FulfillmentInventory/2010-10-01"
 )
 
 // https://docs.developer.amazonservices.com/en_US/dev_guide/DG_Endpoints.html
