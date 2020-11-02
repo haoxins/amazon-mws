@@ -16,11 +16,43 @@ type ReportType string
 const (
 	// SettlementReport ...
 	SettlementReport ReportType = "_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_V2_"
+	// InventoryReport ...
+	InventoryReport = "_GET_FLAT_FILE_OPEN_LISTINGS_DATA_"
 )
 
+// GetReportListParams ...
+type GetReportListParams struct {
+	ReportType ReportType
+	StartTime  time.Time
+	EndTime    time.Time
+}
+
+// GetReportList Get all report ids if has next
+func (seller *Seller) GetReportList(params GetReportListParams) []string {
+	nextToken := ""
+	var ids []string
+
+	for {
+		result := seller.getReportList(params.ReportType, params.StartTime, params.EndTime, nextToken)
+		for _, v := range result.ReportInfos {
+			ids = append(ids, v.ReportID)
+		}
+
+		if !result.HasNext {
+			break
+		}
+
+		nextToken = result.NextToken
+	}
+
+	uids := funk.UniqString(ids)
+
+	return uids
+}
+
 // GetReportList Get seller report list by report type
-func (seller *Seller) GetReportList(startTime time.Time, endTime time.Time, nextToken string) *GetReportListResult {
-	params := seller.genGetReportListParams(SettlementReport, startTime, endTime, nextToken)
+func (seller *Seller) getReportList(reportType ReportType, startTime time.Time, endTime time.Time, nextToken string) *GetReportListResult {
+	params := seller.genGetReportListParams(reportType, startTime, endTime, nextToken)
 
 	raw, err := seller.requestReports(params)
 	tools.PanicError(err)
@@ -48,38 +80,14 @@ func (seller *Seller) GetReportList(startTime time.Time, endTime time.Time, next
 	return &data.GetReportListResult
 }
 
-// GetAllReportIds Get all report ids if has next
-func (seller *Seller) GetAllReportIds(startTime time.Time, endTime time.Time) []string {
-	nextToken := ""
-	var ids []string
-
-	for {
-		result := seller.GetReportList(startTime, endTime, nextToken)
-		for _, v := range result.ReportInfos {
-			ids = append(ids, v.ReportID)
-		}
-
-		if !result.HasNext {
-			break
-		}
-
-		nextToken = result.NextToken
-	}
-
-	uids := funk.UniqString(ids)
-
-	return uids
-}
-
 // GetReportByID Get seller report by report id
-func (seller *Seller) GetReportByID(reportID string) []SettlementReportRow {
+func (seller *Seller) GetReportByID(reportID string) string {
 	params := seller.genGetReportParams(reportID)
 
 	raw, err := seller.requestReports(params)
 	tools.PanicError(err)
 	text := string(raw)
-
-	return parseCSVReport(text)
+	return text
 }
 
 func (seller *Seller) genGetReportListParams(reportType ReportType, startTime time.Time, endTime time.Time, nextToken string) string {

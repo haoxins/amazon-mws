@@ -61,3 +61,11 @@ type SettlementReportRow struct {
 	QuantityPurchased        string
 	PromotionID              string
 }
+
+// InventoryReportRow The inventory report row
+type InventoryReportRow struct {
+	Sku      string
+	Asin     string
+	Price    float64
+	Quantity float64
+}
