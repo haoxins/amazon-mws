@@ -50,7 +50,7 @@ func (seller *Seller) ListInboundShipments(params ListInboundShipmentsParams) []
 	var members []ShipmentMember
 
 	result, err := seller.requestInboundShipment(opts, false)
-	tools.AssertError(err)
+	tools.PanicError(err)
 
 	members = append(members, result.ShipmentData.Members...)
 
@@ -71,7 +71,7 @@ func (seller *Seller) listInboundShipmentsByNextToken(nextToken string) ListInbo
 	opts := seller.genListInboundShipmentsParams(ListInboundShipmentsParams{}, nextToken)
 
 	result, err := seller.requestInboundShipment(opts, true)
-	tools.AssertError(err)
+	tools.PanicError(err)
 
 	return result
 }
@@ -106,7 +106,7 @@ func (seller *Seller) genListInboundShipmentsParams(params ListInboundShipmentsP
 
 func (seller *Seller) requestInboundShipment(qs string, byNextToken bool) (ListInboundShipmentsResult, error) {
 	body, err := seller.get(InboundShipmentPath, qs)
-	tools.AssertError(err)
+	tools.PanicError(err)
 
 	if byNextToken {
 		data := ListInboundShipmentsByNextTokenResponse{}

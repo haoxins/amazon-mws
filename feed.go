@@ -24,7 +24,7 @@ func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) 
 	var feeds []FeedSubmissionInfo
 
 	result, err := seller.requestFeed(opts, false)
-	tools.AssertError(err)
+	tools.PanicError(err)
 
 	feeds = append(feeds, result.FeedSubmissionInfos...)
 
@@ -44,7 +44,7 @@ func (seller *Seller) getFeedSubmissionListByNextToken(nextToken string) GetFeed
 	opts := seller.genGetFeedSubmissionListParams(GetFeedSubmissionListParams{}, nextToken)
 
 	result, err := seller.requestFeed(opts, true)
-	tools.AssertError(err)
+	tools.PanicError(err)
 
 	return result
 }
@@ -82,7 +82,7 @@ func (seller *Seller) requestFeed(qs string, byNextToken bool) (GetFeedSubmissio
 	// According to the document, this should be POST
 	// But, only GET works
 	body, err := seller.get(FeedsPath, qs)
-	tools.AssertError(err)
+	tools.PanicError(err)
 
 	if byNextToken {
 		data := GetFeedSubmissionListByNextTokenResponse{}

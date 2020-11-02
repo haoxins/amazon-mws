@@ -21,7 +21,7 @@ func (seller *Seller) ListFinancialEvents(params ListFinancialEventsParams) []Fi
 	var financialEventsList []FinancialEvents
 
 	result, err := seller.requestFinances(opts, false)
-	tools.AssertError(err)
+	tools.PanicError(err)
 
 	financialEventsList = append(financialEventsList, result.FinancialEvents)
 
@@ -41,7 +41,7 @@ func (seller *Seller) listFinancialEventsByNextToken(nextToken string) ListFinan
 	opts := seller.genListFinancialEventsParams(ListFinancialEventsParams{}, nextToken)
 
 	result, err := seller.requestFinances(opts, true)
-	tools.AssertError(err)
+	tools.PanicError(err)
 
 	return result
 }
@@ -76,7 +76,7 @@ func (seller *Seller) requestFinances(qs string, byNextToken bool) (ListFinancia
 	// According to the document, this should be POST
 	// But, only GET works
 	body, err := seller.get(FinancesPath, qs)
-	tools.AssertError(err)
+	tools.PanicError(err)
 
 	if byNextToken {
 		data := ListFinancialEventsByNextTokenResponse{}
