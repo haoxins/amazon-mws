@@ -18,5 +18,15 @@ func Test_GetReportList(t *testing.T) {
 
 	assert.NotEqual(t, s.SellerID, "")
 
-	// s.GetReportList(time.Now().Add(-8*24*time.Hour), time.Now().Add(-1*time.Hour), "")
+	// uids := s.GetReportList(GetReportListParams{
+	// 	ReportType: InventoryReport,
+	// 	StartTime:  time.Now().Add(-24 * time.Hour),
+	// 	EndTime:    time.Now().Add(-1 * time.Hour),
+	// })
+
+	// t.Logf("uids: %+v", uids)
+
+	// csv := s.GetReportByID(uids[0])
+
+	// t.Logf("Report %+v", ParseInventoryReport(csv))
 }
