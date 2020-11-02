@@ -90,8 +90,6 @@ func (seller *Seller) genGetReportListParams(reportType string, startTime time.T
 	v.Add("AvailableFromDate", startTime.Format(time.RFC3339))
 	v.Add("AvailableToDate", endTime.Format(time.RFC3339))
 	v.Add("MaxCount", "100")
-	v.Add("SignatureVersion", "2")
-	v.Add("SignatureMethod", "HmacSHA256")
 	v.Add("Version", "2009-01-01")
 
 	s := v.Encode()
@@ -106,8 +104,6 @@ func (seller *Seller) genGetReportParams(reportID string) string {
 
 	v.Add("Action", "GetReport")
 	v.Add("ReportId", reportID)
-	v.Add("SignatureVersion", "2")
-	v.Add("SignatureMethod", "HmacSHA256")
 	v.Add("Version", "2009-01-01")
 
 	s := v.Encode()
