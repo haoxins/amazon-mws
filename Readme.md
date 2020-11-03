@@ -12,3 +12,4 @@ https://developer.amazonservices.com
 ## TODOs
 
 * Throttling
+* Error response
