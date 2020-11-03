@@ -55,7 +55,7 @@ func (seller *Seller) genGetFeedSubmissionListParams(params GetFeedSubmissionLis
 	seller.addBasicParams(&v)
 
 	mid := MarketplaceID[seller.Country]
-	v.Add("Marketplace", mid)
+	v.Add("Marketplace", mid) // required ???
 
 	v.Add("MaxCount", "100")
 	v.Add("Version", "2009-01-01")
