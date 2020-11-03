@@ -3,10 +3,8 @@ package mws
 import (
 	"os"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/thoas/go-funk"
 )
 
 func Test_GetInboundGuidanceForSKU(t *testing.T) {
@@ -20,31 +18,31 @@ func Test_GetInboundGuidanceForSKU(t *testing.T) {
 
 	assert.NotEqual(t, s.SellerID, "")
 
-	uids := s.GetReportList(GetReportListParams{
-		ReportType: InventoryReport,
-		StartTime:  time.Now().Add(-24 * time.Hour),
-		EndTime:    time.Now().Add(-1 * time.Hour),
-	})
+	// uids := s.GetReportList(GetReportListParams{
+	// 	ReportType: InventoryReport,
+	// 	StartTime:  time.Now().Add(-24 * time.Hour),
+	// 	EndTime:    time.Now().Add(-1 * time.Hour),
+	// })
 
-	t.Logf("uids length: %d", len(uids))
+	// t.Logf("uids length: %d", len(uids))
 
-	csv := s.GetReportByID(uids[0])
-	rows := ParseInventoryReport(csv)
+	// csv := s.GetReportByID(uids[0])
+	// rows := ParseInventoryReport(csv)
 
-	t.Logf("rows length: %d", len(rows))
+	// t.Logf("rows length: %d", len(rows))
 
-	var skus []string
-	for _, r := range rows {
-		skus = append(skus, r.Sku)
-	}
+	// var skus []string
+	// for _, r := range rows {
+	// 	skus = append(skus, r.Sku)
+	// }
 
-	skus = funk.UniqString(skus)
+	// skus = funk.UniqString(skus)
 
-	guidances, invalidSkus := s.GetInboundGuidanceForSKU(GetInboundGuidanceForSKUParams{
-		SellerSKUList: skus,
-	})
+	// guidances, invalidSkus := s.GetInboundGuidanceForSKU(GetInboundGuidanceForSKUParams{
+	// 	SellerSKUList: skus,
+	// })
 
-	t.Logf("guidances length %d, invalid skus length %d", len(guidances), len(invalidSkus))
-	t.Logf("guidance %+v", guidances[0])
-	t.Logf("invalid skus %+v", invalidSkus)
+	// t.Logf("guidances length %d, invalid skus length %d", len(guidances), len(invalidSkus))
+	// t.Logf("guidance %+v", guidances[0])
+	// t.Logf("invalid skus %+v", invalidSkus)
 }
