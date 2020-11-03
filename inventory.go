@@ -73,7 +73,7 @@ func (seller *Seller) genListInventorySupplyParams(params ListInventorySupplyPar
 
 	if seller.Country == "US" {
 		mid := MarketplaceID[seller.Country]
-		v.Add("Marketplace", mid)
+		v.Add("MarketplaceId", mid)
 	}
 
 	v.Add("Version", "2010-10-01")
