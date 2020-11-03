@@ -36,6 +36,7 @@ func (seller *Seller) addBasicParams(v *url.Values) {
 func (seller *Seller) addSignature(method string, path string, payload string) string {
 	escapedParams := strings.Replace(payload, ",", "%2C", -1)
 	escapedParams = strings.Replace(escapedParams, ":", "%3A", -1)
+	escapedParams = strings.Replace(escapedParams, "+", "%2B", -1)
 
 	params := strings.Split(escapedParams, "&")
 	sort.Strings(params)
