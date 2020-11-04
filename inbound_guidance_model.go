@@ -37,10 +37,13 @@ type InvalidSKU struct {
 
 // SKUInboundGuidance ...
 type SKUInboundGuidance struct {
-	InboundGuidance    string `xml:"InboundGuidance"`
-	GuidanceReasonList struct {
-		GuidanceReason string `xml:"GuidanceReason"`
-	} `xml:"GuidanceReasonList"`
-	ASIN      string `xml:"ASIN"`
-	SellerSKU string `xml:"SellerSKU"`
+	InboundGuidance    string             `xml:"InboundGuidance"`
+	GuidanceReasonList GuidanceReasonList `xml:"GuidanceReasonList"`
+	ASIN               string             `xml:"ASIN"`
+	SellerSKU          string             `xml:"SellerSKU"`
+}
+
+// GuidanceReasonList ...
+type GuidanceReasonList struct {
+	GuidanceReason string `xml:"GuidanceReason"`
 }
