@@ -32,15 +32,18 @@ type InventorySupplyList struct {
 
 // InventorySupplyMember ...
 type InventorySupplyMember struct {
-	Condition            string `xml:"Condition"`
-	SupplyDetail         string `xml:"SupplyDetail"`
-	TotalSupplyQuantity  string `xml:"TotalSupplyQuantity"`
-	EarliestAvailability struct {
-		TimepointType string `xml:"TimepointType"`
-		DateTime      string `xml:"DateTime"`
-	} `xml:"EarliestAvailability"`
-	FNSKU                 string `xml:"FNSKU"`
-	InStockSupplyQuantity string `xml:"InStockSupplyQuantity"`
-	ASIN                  string `xml:"ASIN"`
-	SellerSKU             string `xml:"SellerSKU"`
+	Condition             string               `xml:"Condition"`
+	SupplyDetail          string               `xml:"SupplyDetail"`
+	TotalSupplyQuantity   string               `xml:"TotalSupplyQuantity"`
+	EarliestAvailability  EarliestAvailability `xml:"EarliestAvailability"`
+	FNSKU                 string               `xml:"FNSKU"`
+	InStockSupplyQuantity string               `xml:"InStockSupplyQuantity"`
+	ASIN                  string               `xml:"ASIN"`
+	SellerSKU             string               `xml:"SellerSKU"`
+}
+
+// EarliestAvailability ...
+type EarliestAvailability struct {
+	TimepointType string `xml:"TimepointType"`
+	DateTime      string `xml:"DateTime"`
 }
