@@ -9,6 +9,8 @@ github.com/haoxins/tools/v2 v2.4.0 h1:qPLtpMxSDRzLaU569Ja5i8dpRp4wEJyu9lWTAiYK5W
 github.com/haoxins/tools/v2 v2.4.0/go.mod h1:Rw6Bw7ONFTsyusxFSQTycb4WwFel19QxYzzXRv3382U=
 github.com/haoxins/tools/v2 v2.5.0 h1:PrMOHO+NQ+VdKN7+A+ulCYcxXxMVEBZxIeNPcrIdvKI=
 github.com/haoxins/tools/v2 v2.5.0/go.mod h1:Rw6Bw7ONFTsyusxFSQTycb4WwFel19QxYzzXRv3382U=
+github.com/haoxins/tools/v2 v2.5.1 h1:z4D68Iv5cC38sf95Qy190qut/wVlXgTY/Dht1zLIwXg=
+github.com/haoxins/tools/v2 v2.5.1/go.mod h1:Rw6Bw7ONFTsyusxFSQTycb4WwFel19QxYzzXRv3382U=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
