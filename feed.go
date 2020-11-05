@@ -3,11 +3,39 @@ package mws
 import (
 	"encoding/xml"
 	"errors"
+	"fmt"
+	"io/ioutil"
 	"net/url"
 	"time"
 
 	"github.com/haoxins/tools/v2"
 )
+
+// GetFeedSubmissionResult ...
+func (seller *Seller) GetFeedSubmissionResult(feedSubmissionID string) {
+	qs := seller.genGetFeedSubmissionResultParams(feedSubmissionID)
+
+	body, err := seller.get(FeedsPath, qs)
+	tools.PanicError(err)
+	// WTF - TODO - xlsx, xml, txt
+	fname := tools.Resolve(tools.Getwd(), fmt.Sprintf("feed_submission_result_%s.xlsx", feedSubmissionID))
+	err = ioutil.WriteFile(fname, body, 0644)
+	tools.PanicError(err)
+}
+
+func (seller *Seller) genGetFeedSubmissionResultParams(feedSubmissionID string) string {
+	v := url.Values{}
+
+	seller.addBasicParams(&v)
+
+	v.Add("Action", "GetFeedSubmissionResult")
+	v.Add("Version", "2009-01-01")
+	v.Add("FeedSubmissionId", feedSubmissionID)
+
+	s := v.Encode()
+
+	return s
+}
 
 // GetFeedSubmissionListParams MWS GetFeedSubmissionList API params
 type GetFeedSubmissionListParams struct {
@@ -23,7 +51,7 @@ func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) 
 	opts := seller.genGetFeedSubmissionListParams(params, "")
 	var feeds []FeedSubmissionInfo
 
-	result, err := seller.requestFeed(opts, false)
+	result, err := seller.requestFeedSubmissionList(opts, false)
 	tools.PanicError(err)
 
 	feeds = append(feeds, result.FeedSubmissionInfos...)
@@ -43,7 +71,7 @@ func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) 
 func (seller *Seller) getFeedSubmissionListByNextToken(nextToken string) GetFeedSubmissionListResult {
 	opts := seller.genGetFeedSubmissionListParams(GetFeedSubmissionListParams{}, nextToken)
 
-	result, err := seller.requestFeed(opts, true)
+	result, err := seller.requestFeedSubmissionList(opts, true)
 	tools.PanicError(err)
 
 	return result
@@ -74,7 +102,7 @@ func (seller *Seller) genGetFeedSubmissionListParams(params GetFeedSubmissionLis
 	return s
 }
 
-func (seller *Seller) requestFeed(qs string, byNextToken bool) (GetFeedSubmissionListResult, error) {
+func (seller *Seller) requestFeedSubmissionList(qs string, byNextToken bool) (GetFeedSubmissionListResult, error) {
 	// According to the document, this should be POST
 	// But, only GET works
 	body, err := seller.get(FeedsPath, qs)
