@@ -29,9 +29,9 @@ type ListInventorySupplyParams struct {
 
 // ListInventorySupply ...
 func (seller *Seller) ListInventorySupply(params ListInventorySupplyParams) []InventorySupplyMember {
-	opts := seller.genListInventorySupplyParams(params, "")
+	qs := seller.genListInventorySupplyParams(params, "")
 
-	result, err := seller.requestListInventorySupply(opts, false)
+	result, err := seller.requestListInventorySupply(qs, false)
 	tools.PanicError(err)
 
 	var members []InventorySupplyMember
@@ -51,9 +51,8 @@ func (seller *Seller) ListInventorySupply(params ListInventorySupplyParams) []In
 }
 
 func (seller *Seller) listInventorySupplyByNextToken(nextToken string) ListInventorySupplyResult {
-	opts := seller.genListInventorySupplyParams(ListInventorySupplyParams{}, nextToken)
-	seller.requestListInventorySupply(opts, true)
-	result, err := seller.requestListInventorySupply(opts, true)
+	qs := seller.genListInventorySupplyParams(ListInventorySupplyParams{}, nextToken)
+	result, err := seller.requestListInventorySupply(qs, true)
 	tools.PanicError(err)
 
 	return result

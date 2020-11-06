@@ -48,10 +48,10 @@ type GetFeedSubmissionListParams struct {
 // Maximum request quota Restore rate                 Hourly request quota
 // 10 requests           One request every 45 seconds 80 requests per hour
 func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) []FeedSubmissionInfo {
-	opts := seller.genGetFeedSubmissionListParams(params, "")
+	qs := seller.genGetFeedSubmissionListParams(params, "")
 	var feeds []FeedSubmissionInfo
 
-	result, err := seller.requestFeedSubmissionList(opts, false)
+	result, err := seller.requestFeedSubmissionList(qs, false)
 	tools.PanicError(err)
 
 	feeds = append(feeds, result.FeedSubmissionInfos...)
@@ -69,9 +69,9 @@ func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) 
 }
 
 func (seller *Seller) getFeedSubmissionListByNextToken(nextToken string) GetFeedSubmissionListResult {
-	opts := seller.genGetFeedSubmissionListParams(GetFeedSubmissionListParams{}, nextToken)
+	qs := seller.genGetFeedSubmissionListParams(GetFeedSubmissionListParams{}, nextToken)
 
-	result, err := seller.requestFeedSubmissionList(opts, true)
+	result, err := seller.requestFeedSubmissionList(qs, true)
 	tools.PanicError(err)
 
 	return result

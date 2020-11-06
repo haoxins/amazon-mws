@@ -16,9 +16,9 @@ type GetInboundGuidanceForSKUParams struct {
 
 // GetInboundGuidanceForSKU ...
 func (seller *Seller) GetInboundGuidanceForSKU(params GetInboundGuidanceForSKUParams) ([]SKUInboundGuidance, []InvalidSKU) {
-	opts := seller.genGetInboundGuidanceForSKUParams(params)
+	qs := seller.genGetInboundGuidanceForSKUParams(params)
 
-	result, err := seller.requestInboundGuidanceForSKU(opts)
+	result, err := seller.requestInboundGuidanceForSKU(qs)
 	tools.PanicError(err)
 
 	guidances := result.SKUInboundGuidanceList.SKUInboundGuidances
