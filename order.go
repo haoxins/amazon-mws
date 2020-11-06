@@ -18,9 +18,9 @@ type ListOrdersParams struct {
 
 // ListOrders List orders
 func (seller *Seller) ListOrders(params ListOrdersParams) {
-	opts := seller.genListOrdersParams(params)
+	qs := seller.genListOrdersParams(params)
 
-	body, err := seller.requestOrders(opts)
+	body, err := seller.requestOrders(qs)
 	tools.PanicError(err)
 
 	data := ListOrdersResponse{}

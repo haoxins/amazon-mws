@@ -17,10 +17,10 @@ type ListFinancialEventsParams struct {
 
 // ListFinancialEvents ...
 func (seller *Seller) ListFinancialEvents(params ListFinancialEventsParams) []FinancialEvents {
-	opts := seller.genListFinancialEventsParams(params, "")
+	qs := seller.genListFinancialEventsParams(params, "")
 	var financialEventsList []FinancialEvents
 
-	result, err := seller.requestFinances(opts, false)
+	result, err := seller.requestFinances(qs, false)
 	tools.PanicError(err)
 
 	financialEventsList = append(financialEventsList, result.FinancialEvents)
@@ -38,9 +38,9 @@ func (seller *Seller) ListFinancialEvents(params ListFinancialEventsParams) []Fi
 }
 
 func (seller *Seller) listFinancialEventsByNextToken(nextToken string) ListFinancialEventsResult {
-	opts := seller.genListFinancialEventsParams(ListFinancialEventsParams{}, nextToken)
+	qs := seller.genListFinancialEventsParams(ListFinancialEventsParams{}, nextToken)
 
-	result, err := seller.requestFinances(opts, true)
+	result, err := seller.requestFinances(qs, true)
 	tools.PanicError(err)
 
 	return result

@@ -45,11 +45,11 @@ type ListInboundShipmentsParams struct {
 
 // ListInboundShipments ...
 func (seller *Seller) ListInboundShipments(params ListInboundShipmentsParams) []ShipmentMember {
-	opts := seller.genListInboundShipmentsParams(params, "")
+	qs := seller.genListInboundShipmentsParams(params, "")
 
 	var members []ShipmentMember
 
-	result, err := seller.requestInboundShipment(opts, false)
+	result, err := seller.requestInboundShipment(qs, false)
 	tools.PanicError(err)
 
 	members = append(members, result.ShipmentData.Members...)
@@ -67,9 +67,9 @@ func (seller *Seller) ListInboundShipments(params ListInboundShipmentsParams) []
 }
 
 func (seller *Seller) listInboundShipmentsByNextToken(nextToken string) ListInboundShipmentsResult {
-	opts := seller.genListInboundShipmentsParams(ListInboundShipmentsParams{}, nextToken)
+	qs := seller.genListInboundShipmentsParams(ListInboundShipmentsParams{}, nextToken)
 
-	result, err := seller.requestInboundShipment(opts, true)
+	result, err := seller.requestInboundShipment(qs, true)
 	tools.PanicError(err)
 
 	return result
