@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_GetFeedSubmissionList(t *testing.T) {
+func Test_GetFeedSubmissionResult(t *testing.T) {
 	s := &Seller{
 		Country:   os.Getenv("country"),
 		SellerID:  os.Getenv("seller_id"),
@@ -18,10 +18,7 @@ func Test_GetFeedSubmissionList(t *testing.T) {
 
 	assert.NotEqual(t, s.SellerID, "")
 
-	// feeds := s.GetFeedSubmissionList(GetFeedSubmissionListParams{
-	// 	SubmittedFromDate: time.Now().Add(-3 * 24 * time.Hour),
-	// 	SubmittedToDate:   time.Now().Add(-1 * time.Hour),
-	// })
-
-	// t.Logf("%+v", feeds)
+	// TODO - get id from GetFeedSubmissionList
+	// id := os.Getenv("feed_submission_id")
+	// s.GetFeedSubmissionResult(id)
 }
