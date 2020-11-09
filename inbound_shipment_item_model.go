@@ -42,8 +42,11 @@ type InboundShipmentItemMember struct {
 
 // PrepDetailsList ...
 type PrepDetailsList struct {
-	PrepDetails struct {
-		PrepOwner       string `xml:"PrepOwner"`
-		PrepInstruction string `xml:"PrepInstruction"`
-	} `xml:"PrepDetails"`
+	PrepDetails []PrepDetail `xml:"PrepDetails"`
+}
+
+// PrepDetail ...
+type PrepDetail struct {
+	PrepOwner       string `xml:"PrepOwner"`
+	PrepInstruction string `xml:"PrepInstruction"`
 }
