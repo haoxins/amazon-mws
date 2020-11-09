@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	github.com/go-resty/resty/v2 v2.3.0
-	github.com/haoxins/tools/v2 v2.6.0
+	github.com/haoxins/tools/v2 v2.7.0
 	github.com/spf13/cast v1.3.1
 	github.com/stretchr/testify v1.6.1
 	github.com/thoas/go-funk v0.7.0
