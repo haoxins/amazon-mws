@@ -60,26 +60,32 @@ type OrderInfo struct {
 	PaymentMethodDetails   struct {
 		PaymentMethodDetail string `xml:"PaymentMethodDetail"`
 	} `xml:"PaymentMethodDetails"`
-	IsGlobalExpressEnabled string `xml:"IsGlobalExpressEnabled"`
-	IsSoldByAB             string `xml:"IsSoldByAB"`
-	IsPremiumOrder         string `xml:"IsPremiumOrder"`
-	OrderTotal             struct {
-		Amount       string `xml:"Amount"`
-		CurrencyCode string `xml:"CurrencyCode"`
-	} `xml:"OrderTotal"`
-	EarliestShipDate   string `xml:"EarliestShipDate"`
-	MarketplaceID      string `xml:"MarketplaceId"`
-	FulfillmentChannel string `xml:"FulfillmentChannel"`
-	PaymentMethod      string `xml:"PaymentMethod"`
-	ShippingAddress    struct {
-		City                         string `xml:"City"`
-		PostalCode                   string `xml:"PostalCode"`
-		IsAddressSharingConfidential string `xml:"isAddressSharingConfidential"`
-		StateOrRegion                string `xml:"StateOrRegion"`
-		CountryCode                  string `xml:"CountryCode"`
-	} `xml:"ShippingAddress"`
-	IsISPU                       string `xml:"IsISPU"`
-	IsPrime                      string `xml:"IsPrime"`
-	SellerOrderID                string `xml:"SellerOrderId"`
-	ShipmentServiceLevelCategory string `xml:"ShipmentServiceLevelCategory"`
+	IsGlobalExpressEnabled       string               `xml:"IsGlobalExpressEnabled"`
+	IsSoldByAB                   string               `xml:"IsSoldByAB"`
+	IsPremiumOrder               string               `xml:"IsPremiumOrder"`
+	OrderTotal                   OrderTotal           `xml:"OrderTotal"`
+	EarliestShipDate             string               `xml:"EarliestShipDate"`
+	MarketplaceID                string               `xml:"MarketplaceId"`
+	FulfillmentChannel           string               `xml:"FulfillmentChannel"`
+	PaymentMethod                string               `xml:"PaymentMethod"`
+	ShippingAddress              OrderShippingAddress `xml:"ShippingAddress"`
+	IsISPU                       string               `xml:"IsISPU"`
+	IsPrime                      string               `xml:"IsPrime"`
+	SellerOrderID                string               `xml:"SellerOrderId"`
+	ShipmentServiceLevelCategory string               `xml:"ShipmentServiceLevelCategory"`
+}
+
+// OrderShippingAddress ...
+type OrderShippingAddress struct {
+	City                         string `xml:"City"`
+	PostalCode                   string `xml:"PostalCode"`
+	IsAddressSharingConfidential string `xml:"isAddressSharingConfidential"`
+	StateOrRegion                string `xml:"StateOrRegion"`
+	CountryCode                  string `xml:"CountryCode"`
+}
+
+// OrderTotal ...
+type OrderTotal struct {
+	Amount       string `xml:"Amount"`
+	CurrencyCode string `xml:"CurrencyCode"`
 }
