@@ -42,7 +42,7 @@ func (seller *Seller) ListInventorySupply(params ListInventorySupplyParams) []In
 			break
 		}
 
-		result = seller.listInventorySupplyByNextToken(result.NextToken)
+		result = seller.ListInventorySupplyByNextToken(result.NextToken)
 		members = append(members, result.InventorySupplyList.Members...)
 
 	}
@@ -50,7 +50,8 @@ func (seller *Seller) ListInventorySupply(params ListInventorySupplyParams) []In
 	return members
 }
 
-func (seller *Seller) listInventorySupplyByNextToken(nextToken string) ListInventorySupplyResult {
+// ListInventorySupplyByNextToken ...
+func (seller *Seller) ListInventorySupplyByNextToken(nextToken string) ListInventorySupplyResult {
 	qs := seller.genListInventorySupplyParams(ListInventorySupplyParams{}, nextToken)
 	result, err := seller.requestListInventorySupply(qs, true)
 	tools.PanicError(err)
