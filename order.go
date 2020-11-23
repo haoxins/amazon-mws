@@ -69,8 +69,9 @@ func (seller *Seller) genListOrdersParams(params ListOrdersParams, nextToken str
 		v.Add("Action", "ListOrders")
 		v.Add("LastUpdatedAfter", params.LastUpdatedAfter.Format(time.RFC3339))
 		v.Add("LastUpdatedBefore", params.LastUpdatedBefore.Format(time.RFC3339))
-		v.Add("Version", "2013-09-01")
 	}
+
+	v.Add("Version", "2013-09-01")
 
 	s := v.Encode()
 
