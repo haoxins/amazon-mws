@@ -30,14 +30,15 @@ func (seller *Seller) ListFinancialEvents(params ListFinancialEventsParams) []Fi
 			break
 		}
 
-		result = seller.listFinancialEventsByNextToken(result.NextToken)
+		result = seller.ListFinancialEventsByNextToken(result.NextToken)
 		financialEventsList = append(financialEventsList, result.FinancialEvents)
 	}
 
 	return financialEventsList
 }
 
-func (seller *Seller) listFinancialEventsByNextToken(nextToken string) ListFinancialEventsResult {
+// ListFinancialEventsByNextToken ...
+func (seller *Seller) ListFinancialEventsByNextToken(nextToken string) ListFinancialEventsResult {
 	qs := seller.genListFinancialEventsParams(ListFinancialEventsParams{}, nextToken)
 
 	result, err := seller.requestFinances(qs, true)

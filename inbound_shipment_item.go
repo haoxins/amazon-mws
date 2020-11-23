@@ -32,14 +32,15 @@ func (seller *Seller) ListInboundShipmentItems(params ListInboundShipmentItemsPa
 			break
 		}
 
-		result = seller.listInboundShipmentItemsByNextToken(result.NextToken)
+		result = seller.ListInboundShipmentItemsByNextToken(result.NextToken)
 		members = append(members, result.ItemData.Members...)
 	}
 
 	return members
 }
 
-func (seller *Seller) listInboundShipmentItemsByNextToken(nextToken string) ListInboundShipmentItemsResult {
+// ListInboundShipmentItemsByNextToken ...
+func (seller *Seller) ListInboundShipmentItemsByNextToken(nextToken string) ListInboundShipmentItemsResult {
 	qs := seller.genListInboundShipmentItemsParams(ListInboundShipmentItemsParams{}, nextToken)
 
 	result, err := seller.requestInboundShipmentItems(qs, true)

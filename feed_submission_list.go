@@ -33,14 +33,15 @@ func (seller *Seller) GetFeedSubmissionList(params GetFeedSubmissionListParams) 
 			break
 		}
 
-		result = seller.getFeedSubmissionListByNextToken(result.NextToken)
+		result = seller.GetFeedSubmissionListByNextToken(result.NextToken)
 		feeds = append(feeds, result.FeedSubmissionInfos...)
 	}
 
 	return feeds
 }
 
-func (seller *Seller) getFeedSubmissionListByNextToken(nextToken string) GetFeedSubmissionListResult {
+// GetFeedSubmissionListByNextToken ...
+func (seller *Seller) GetFeedSubmissionListByNextToken(nextToken string) GetFeedSubmissionListResult {
 	qs := seller.genGetFeedSubmissionListParams(GetFeedSubmissionListParams{}, nextToken)
 
 	result, err := seller.requestFeedSubmissionList(qs, true)
