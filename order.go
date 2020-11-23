@@ -3,7 +3,6 @@ package mws
 import (
 	"encoding/xml"
 	"errors"
-	"fmt"
 	"net/url"
 	"time"
 
@@ -34,14 +33,15 @@ func (seller *Seller) ListOrders(params ListOrdersParams) []OrderInfo {
 			break
 		}
 
-		result = seller.listOrdersByNextToken(result.NextToken)
+		result = seller.ListOrdersByNextToken(result.NextToken)
 		orders = append(orders, result.OrderList.Orders...)
 	}
 
 	return orders
 }
 
-func (seller *Seller) listOrdersByNextToken(nextToken string) ListOrdersResult {
+// ListOrdersByNextToken ...
+func (seller *Seller) ListOrdersByNextToken(nextToken string) ListOrdersResult {
 	qs := seller.genListOrdersParams(ListOrdersParams{}, nextToken)
 
 	result, err := seller.requestOrders(qs, true)
@@ -78,7 +78,6 @@ func (seller *Seller) genListOrdersParams(params ListOrdersParams, nextToken str
 }
 
 func (seller *Seller) requestOrders(qs string, byNextToken bool) (ListOrdersResult, error) {
-	fmt.Println(qs)
 	body, err := seller.get(OrdersPath, qs)
 	tools.PanicError(err)
 
