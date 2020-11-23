@@ -3,6 +3,7 @@ package mws
 import (
 	"os"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -18,9 +19,11 @@ func Test_ListOrders(t *testing.T) {
 
 	assert.NotEqual(t, s.SellerID, "")
 
-	// s.ListOrders(ListOrdersParams{
-	// 	LastUpdatedAfter:  time.Now().Add(-2 * time.Hour),
-	// 	LastUpdatedBefore: time.Now().Add(-1 * time.Hour),
-	// })
-	assert.Equal(t, 1, 1)
+	orders := s.ListOrders(ListOrdersParams{
+		Statuses:          []OrderStatus{OrderStatusShipped},
+		LastUpdatedAfter:  time.Now().Add(-8 * time.Hour),
+		LastUpdatedBefore: time.Now().Add(-1 * time.Hour),
+	})
+
+	t.Logf("%+v", orders)
 }

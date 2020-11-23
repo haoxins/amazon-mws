@@ -20,6 +20,8 @@ const (
 	OrderStatusCanceled = "Canceled"
 	// OrderStatusUnfulfillable ...
 	OrderStatusUnfulfillable = "Unfulfillable"
+	// OrderStatusInvoiceUnconfirmed ...
+	OrderStatusInvoiceUnconfirmed = "InvoiceUnconfirmed"
 )
 
 // ListOrdersResponse ...
@@ -30,10 +32,18 @@ type ListOrdersResponse struct {
 	ResponseMetadata ResponseMetadata `xml:"ResponseMetadata"`
 }
 
+// ListOrdersByNextTokenResponse ...
+type ListOrdersByNextTokenResponse struct {
+	XMLName          xml.Name         `xml:"ListOrdersByNextTokenResponse"`
+	Xmlns            string           `xml:"xmlns,attr"`
+	ListOrdersResult ListOrdersResult `xml:"ListOrdersByNextTokenResult"`
+	ResponseMetadata ResponseMetadata `xml:"ResponseMetadata"`
+}
+
 // ListOrdersResult ...
 type ListOrdersResult struct {
 	NextToken         string    `xml:"NextToken"`
-	Orders            OrderList `xml:"Orders"`
+	OrderList         OrderList `xml:"Orders"`
 	LastUpdatedBefore string    `xml:"LastUpdatedBefore"`
 }
 
